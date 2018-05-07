@@ -49,12 +49,13 @@
 from __future__ import print_function
 
 VERSION = '2.0.1-dev'
-Id='$Id: datafiller.py 832 2015-11-01 21:55:41Z fabien $'
+Id = '$Id: datafiller.py 832 2015-11-01 21:55:41Z fabien $'
 
 # extract revision informations from svn revision identifier
 import re
+
 revision, revdate, revyear = \
-  re.search(r' (\d+) ((\d{4})-\d\d-\d\d) ', Id).group(1, 2, 3)
+    re.search(r' (\d+) ((\d{4})-\d\d-\d\d) ', Id).group(1, 2, 3)
 
 version = "{0} (r{1} on {2})".format(VERSION, revision, revdate)
 
@@ -123,25 +124,28 @@ version = "{0} (r{1} on {2})".format(VERSION, revision, revdate)
 #
 
 import sys
+
 if sys.version_info < (3,):
     # python 2
-    from StringIO import StringIO # StringIO.StringIO...
-    range = xrange # ah!
+    from StringIO import StringIO  # StringIO.StringIO...
+
+    range = xrange  # ah!
     numeric_types = (int, long, float, complex)
-    u = lambda s: unicode(s, opts.encoding) # for outside strings
-    u8 = lambda s: unicode(s, 'utf-8') # for strings in this file
-    bytes = bytearray # ah!
-    str = unicode # ah! should it be u? u8? depends?
+    u = lambda s: unicode(s, opts.encoding)  # for outside strings
+    u8 = lambda s: unicode(s, 'utf-8')  # for strings in this file
+    bytes = bytearray  # ah!
+    str = unicode  # ah! should it be u? u8? depends?
     # see also print_function import above
     # see also print overriding below
 else:
     # python 3
     from io import StringIO
+
     numeric_types = (int, float, complex)
-    u = lambda s: s # hmmm... too late, managed by fileinput...
-    u8 = lambda s: s # the file is in utf-8
-    unichr = chr # ah!
-    long = int # ah!
+    u = lambda s: s  # hmmm... too late, managed by fileinput...
+    u8 = lambda s: s  # the file is in utf-8
+    unichr = chr  # ah!
+    long = int  # ah!
     from functools import reduce
     # see print overriding below
 
@@ -2185,7 +2189,7 @@ UNITS = [
       "!int sub=power rate=0.8 size=3", "!int sub=scale rate=0.7 size=4",
       "-int sub=uniform size=8", "-type=SERIAL", "-type=tinyint",
       "-int null=0", "-int null=1", "-int null=0.5"]),
-    ("float", # avoid 'exp' (2.[67]) and 'vonmises' (3.[23])
+    ("float",  # avoid 'exp' (2.[67]) and 'vonmises' (3.[23])
      ["-float", "-type='DOUBLE PRECISION'",
       "-float=gauss alpha=0.8 beta=0.01",
       "-float=beta alpha=2.0", "-float=log alpha=5.0 beta=2.0"]),
@@ -2197,17 +2201,17 @@ UNITS = [
     ("string",
      ["-string", "-type=varchar(9)", "-type=CHAR(5) prefix=s",
       "-string size=5 prefix=i length=5 lenvar=1",
-      "-string offset=10 size=10 lenmin=6 lenmax=7" ]),
+      "-string offset=10 size=10 lenmin=6 lenmax=7"]),
     ("word",
      ["-word=:", "-word=:un,2,3,4,5 sub=serial", "-word=:a,b,c,d,e,f size=2",
-      "-word=/etc/dictionaries-common/words",]),
+      "-word=/etc/dictionaries-common/words", ]),
     ("text",
      ["w1:string prefix=s size=10 length=5",
       "w2:word=:Gondor,Mordor,Moria,Rohan,Shire",
       "w3:int size=10 offset=0",
       "-text=w1 lenmin=1 lenmax=3 prefix=|",
       "-text=w2 length=2 lenvar=1 suffix=.",
-      "-text=w3 lenmax=3 suffix=,", # again...
+      "-text=w3 lenmax=3 suffix=,",  # again...
       "-text=w3 lenmax=3 suffix=, separator=+",
       # hmmm... shoud I create a share just with 'size=4'?
       # does a subgen imply a share?
@@ -2218,21 +2222,21 @@ UNITS = [
       "-pattern=[a-z]+", "-pattern=\w*", "-pattern=abc", "-pattern=(hi|you)",
       "-pattern=\d{2}[:lower:]{2}", "-pattern=(0|1)+[a-f]?",
       "-pattern=N=[:count:]", "-pattern='N=[:count start=9 step=-1:]'",
-      "-pattern='N=[:count:]?'", "-pattern='\([:float:]\)'" ]),
+      "-pattern='N=[:count:]?'", "-pattern='\([:float:]\)'"]),
     ("blob",
      ["-blob", "-type=BLOB lenmin=3 lenmax=6",
       "-blob length=5 lenvar=2", "-blob length=6 lenvar=0",
-      "-blob length=0 lenvar=0", "-blob length=3 size=3" ]),
+      "-blob length=0 lenvar=0", "-blob length=3 size=3"]),
     ("date",
      ["-date end=1970-03-20 size=3650",
       "-date start=1970-03-20 size=36500",
       "-date start=2038-01-19 end=2038-01-19",
       "-date start=2038-01-19 end=2038-01-21",
       "-date start=1970-01-18 end=1970-03-20",
-      "-date start=2038-01-19 prec=3 size=3" ]),
+      "-date start=2038-01-19 prec=3 size=3"]),
     ("timestamp",
      ["-timestamp start='2013-12-26 17:31:05' size=7 prec=10",
-      "-timestamp end='2013-12-26 17:32:01' prec=3600 size=3" ]),
+      "-timestamp end='2013-12-26 17:32:01' prec=3600 size=3"]),
     ("interval",
      ["-interval", "-interval unit=d size=365", "-interval unit=y size=42"]),
     ("inet",
@@ -2248,7 +2252,7 @@ UNITS = [
     ("ean",
      ["-ean", "-type=EAN13", "-type=ISBN13", "-type=ISSN13", "-type=ISMN13",
       "-type=UPC", "-type=ISBN", "-type=issn", "-type=ISMN size=10",
-      "-type=ISSN prefix=1234567","-type=ISMN prefix=M123",
+      "-type=ISSN prefix=1234567", "-type=ISMN prefix=M123",
       "-type=UPC prefix=1000000"]),
     ("uuid",
      ["-uuid", "-type=UUID", "-type=uuid"]),
@@ -2273,17 +2277,17 @@ UNITS = [
     ("tuple",
      ["digit: int size=10 offset=0", "none: isnull", "cst: const='hi' null=0.3",
       "stuff: pattern='[a-z]{2}'",
-      "-tuple", "-tuple=", "-tuple=''", "-tuple null=0.3", # empty tuples
+      "-tuple", "-tuple=", "-tuple=''", "-tuple null=0.3",  # empty tuples
       "-tuple=digit", "-tuple=digit null=0.8", "-tuple=digit,cst,none,stuff",
       "-tuple=digit,isnull,digit,cst null=0.3",
       "THREE: int size=3", "nb: int size=1000 share=THREE",
       r"city: pattern='[A-Z][a-z]+(\?|\!)' share=THREE",
-      "-tuple=nb,city" ]),
+      "-tuple=nb,city"]),
     ("reduce",
      ["f1: float=gauss beta=0.05", "f2: float", "i1: int size=2 offset=0",
       "-reduce=f1,f2", "-reduce=f1,i1", "-reduce=f1,i1 op=*",
       "-reduce=f1,f2 op=*", "-reduce=f1,f2 op=cat", "-reduce=f1,i1 op=max",
-      "-reduce=f1,i1 op=min" ]),
+      "-reduce=f1,i1 op=min"]),
     ("value",
      ["i1: int size=10 offset=0", "f1: float", "f1v: value=f1",
       "f2: float=gauss alpha=0.0 beta=0.01",
@@ -2306,44 +2310,47 @@ UNITS = [
     ("! int 9", ["int mult=2.0 size=20"]),
     ("! int A", ["int null=2.0"]),
     ("! float 1", ["float=exp beta=2.0"]),
-    ("! chars 1", ["chars"]), # empty set
-    ("! chars 2", ["chars="]), # idem
+    ("! chars 1", ["chars"]),  # empty set
+    ("! chars 2", ["chars="]),  # idem
     ("! chars 3", ["chars=a-"]),
     ("! chars 4", ["chars=a-z\\"]),
     ("! string 1", ["string lenmin=-3 lenmax=1"]),
     ("! string 2", ["string lenmin=3 lenmax=2"]),
     ("! string 3", ["string length=10 lenmin=3"]),
     ("! word 1", ["-word="]),
-    #("! word 2", ["-word=:one,two,three size=5"]),
+    # ("! word 2", ["-word=:one,two,three size=5"]),
     ("! text 1", ["text"]),
     ("! text 2", ["text="]),
     ("! text 3", ["text=undefined"]),
-    ("! text 4", ["useless: size=3", "text=useless"]), # should it be int?
+    ("! text 4", ["useless: size=3", "text=useless"]),  # should it be int?
     ("! pattern 1", ["pattern=[:unknown:]"]),
     ("! date 1", ["date="]),
     ("! date 2", ["date=True"]),
-    ("! date 3", ["date start=2038-01-19 end=2038-01-18" ]), # empty set
+    ("! date 3", ["date start=2038-01-19 end=2038-01-18"]),  # empty set
     ("! inet 1", ["inet=10"]),
     ("! inet 2", ["inet=10.0.0.0/33"]),
-    ("! inet 3", ["inet=10.2.14.0/31"]), # no available address
-    ("! inet 4", ["inet=10.2.14.1/32"]), # idem
+    ("! inet 3", ["inet=10.2.14.0/31"]),  # no available address
+    ("! inet 4", ["inet=10.2.14.1/32"]),  # idem
     ("! luhn 1", ["luhn length=1"]),
     ("! luhn 2", ["luhn length=4 prefix=4800"]),
     ("! luhn 3", ["luhn prefix=000B"]),
     ("! ean 1", ["type=ISSN prefix=12345678"]),
     ("! isnull 1", ["isnull null=0.5"]),
     ("! reduce 1", ["f1: float", "f2: float", "reduce=f1,f2 op=sum"]),
-    ("! * 1", [ "int float" ]),
-    ("! * 2", [ "type=flt" ]),
-    ("! * 3", [ "int: chars=0-9"]),
+    ("! * 1", ["int float"]),
+    ("! * 2", ["type=flt"]),
+    ("! * 3", ["int: chars=0-9"]),
 ]
+
 
 class StdoutExitError(BaseException):
     """Exception class used for unit tests."""
+
     def __init__(self, msg=''):
         print('## ' + msg)
         if not opts.debug:
             sys.exit(1)
+
 
 def run_unit_tests(seed=None):
     fail = 0
@@ -2363,49 +2370,50 @@ def run_unit_tests(seed=None):
         sys.stderr.write("unit tests failed: {0}\n".format(fail))
     sys.exit(fail)
 
+
 # escaped list of caracters for . in regular expressions
-RE_DOT = r' -~' # from ASCII 0x20 to 0x7E
+RE_DOT = r' -~'  # from ASCII 0x20 to 0x7E
 RE_POSIX_CC = { \
-    'alpha':'A-Za-z', 'alnum':'A-Za-z0-9', 'ascii':' -~', 'blank':r' \t',
-    'cntrl':'\000-\037\177', 'digit':'0-9', 'graph':'!-~', 'lower':'a-z',
-    'print':' -~', 'punct':' -/:-@[-^`{-~', 'space':r'\s', 'upper':'A-Z',
-    'word':r'\w', 'xdigit':'0-9a-fA-F'
+    'alpha': 'A-Za-z', 'alnum': 'A-Za-z0-9', 'ascii': ' -~', 'blank': r' \t',
+    'cntrl': '\000-\037\177', 'digit': '0-9', 'graph': '!-~', 'lower': 'a-z',
+    'print': ' -~', 'punct': ' -/:-@[-^`{-~', 'space': r'\s', 'upper': 'A-Z',
+    'word': r'\w', 'xdigit': '0-9a-fA-F'
 }
 
 # re helpers: alas this is not a parser.
 
 # identifier
-RE_IDENT=r'"[^"]+"|`[^`]+`|[a-z0-9_]+'
+RE_IDENT = r'"[^"]+"|`[^`]+`|[a-z0-9_]+'
 # possibly schema-qualified
 # ??? this won't work with quoted identifiers?
 # 1=schema, 2=table
-RE_IDENT2=r'({0})\.({0})|{0}'.format(RE_IDENT)
+RE_IDENT2 = r'({0})\.({0})|{0}'.format(RE_IDENT)
 
 # SQL commands
-RE_CMD=r'CREATE|ALTER|DROP|SELECT|INSERT|UPDATE|DELETE|SET|GRANT|REVOKE|SHOW'
+RE_CMD = r'CREATE|ALTER|DROP|SELECT|INSERT|UPDATE|DELETE|SET|GRANT|REVOKE|SHOW'
 
 # types
-RE_SER=r'(SMALL|BIG)?SERIAL|SERIAL[248]'
-RE_BLO=r'BYTEA|BLOB'
-RE_INT=r'{0}|(TINY|SMALL|MEDIUM)INT|INT[248]|INTEGER|INT\b'.format(RE_SER)
-RE_FLT=r'REAL|FLOAT|DOUBLE\s+PRECISION|NUMERIC|DECIMAL'
-RE_TXT=r'TEXT|CHAR\(\d+\)|VARCHAR\(\d+\)'
-RE_BIT=r'BIT\(\d+\)|VARBIT\(\d+\)'
-RE_TSTZ=r'TIMESTAMP(\s+WITH\s+TIME\s+ZONE)?'
-RE_INTV=r'INTERVAL'
-RE_TIM=r'DATE|{0}|{1}'.format(RE_TSTZ, RE_INTV)
-RE_BOO=r'BOOL(EAN)?'
-RE_IPN=r'INET|CIDR'
-RE_MAC=r'MACADDR'
-RE_EAN=r'EAN13|IS[BMS]N(13)?|UPC'
-RE_GEO=r'POINT|LINE|LSEG|BOX|PATH|POLYGON|CIRCLE'
-RE_OTH=r'UUID'
+RE_SER = r'(SMALL|BIG)?SERIAL|SERIAL[248]'
+RE_BLO = r'BYTEA|BLOB'
+RE_INT = r'{0}|(TINY|SMALL|MEDIUM)INT|INT[248]|INTEGER|INT\b'.format(RE_SER)
+RE_FLT = r'REAL|FLOAT|DOUBLE\s+PRECISION|NUMERIC|DECIMAL'
+RE_TXT = r'TEXT|CHAR\(\d+\)|VARCHAR\(\d+\)'
+RE_BIT = r'BIT\(\d+\)|VARBIT\(\d+\)'
+RE_TSTZ = r'TIMESTAMP(\s+WITH\s+TIME\s+ZONE)?'
+RE_INTV = r'INTERVAL'
+RE_TIM = r'DATE|{0}|{1}'.format(RE_TSTZ, RE_INTV)
+RE_BOO = r'BOOL(EAN)?'
+RE_IPN = r'INET|CIDR'
+RE_MAC = r'MACADDR'
+RE_EAN = r'EAN13|IS[BMS]N(13)?|UPC'
+RE_GEO = r'POINT|LINE|LSEG|BOX|PATH|POLYGON|CIRCLE'
+RE_OTH = r'UUID'
 
 # all predefined PostgreSQL types
-RE_TYPE='|'.join([RE_INT, RE_FLT, RE_TXT, RE_BIT, RE_TIM, RE_BOO, RE_BLO,
-                  RE_IPN, RE_MAC, RE_EAN, RE_GEO, RE_OTH])
+RE_TYPE = '|'.join([RE_INT, RE_FLT, RE_TXT, RE_BIT, RE_TIM, RE_BOO, RE_BLO,
+                    RE_IPN, RE_MAC, RE_EAN, RE_GEO, RE_OTH])
 
-RE_ARRAY=r'((\s+ARRAY)?(\s*\[[][0-9 ]*\])?)?'
+RE_ARRAY = r'((\s+ARRAY)?(\s*\[[][0-9 ]*\])?)?'
 
 # and arrays thereof
 RE_ALLT = r'({0}){1}'.format(RE_TYPE, RE_ARRAY)
@@ -2483,11 +2491,13 @@ backslash = re.compile(r'\s*\\')
 import random
 
 # some ASCII control characters
-UCHARS = { '0':'\0', 'a':'\a', 'b':'\b', 'f':'\f', \
-           'n':'\n', 'r':'\r', 't':'\t', 'v':'\v' }
+UCHARS = {'0': '\0', 'a': '\a', 'b': '\b', 'f': '\f', \
+          'n': '\n', 'r': '\r', 't': '\t', 'v': '\v'}
 # re special escaped characters, which may appear within [] or out of them
-RECHARS = { 'd':'0-9', 's':' \t\r\n\v\f', 'w':'a-zA-Z0-9_', \
-            'h':'0-9a-f', 'H':'0-9A-F' }
+RECHARS = {'d': '0-9', 's': ' \t\r\n\v\f', 'w': 'a-zA-Z0-9_', \
+           'h': '0-9a-f', 'H': '0-9A-F'}
+
+
 def unescape(s, regexp=False):
     """Return an unescaped string."""
     r, i = u8(''), 0
@@ -2495,30 +2505,31 @@ def unescape(s, regexp=False):
     while i < len(s):
         c = s[i]
         if c == '\\':
-            assert i+1 < len(s), \
+            assert i + 1 < len(s), \
                 "escaped string '{0}' must not end with '\\'".format(s)
-            if re.match(r'[012][0-7]{2}', s[i+1:]): # octal
-                r += chr(int(s[i+1:i+4], 8))
+            if re.match(r'[012][0-7]{2}', s[i + 1:]):  # octal
+                r += chr(int(s[i + 1:i + 4], 8))
                 i += 4
-            elif re.match(r'[xX][0-9a-fA-F]{2}', s[i+1:]): # hexadecimal
-                r += chr(int(s[i+2:i+4], 16))
+            elif re.match(r'[xX][0-9a-fA-F]{2}', s[i + 1:]):  # hexadecimal
+                r += chr(int(s[i + 2:i + 4], 16))
                 i += 4
-            elif re.match(r'u[0-9a-fA-F]{4}', s[i+1:]): # 4 digit unicode
-                r += unichr(int(s[i+2:i+6], 16))
+            elif re.match(r'u[0-9a-fA-F]{4}', s[i + 1:]):  # 4 digit unicode
+                r += unichr(int(s[i + 2:i + 6], 16))
                 i += 6
-            elif re.match(r'U[0-9a-fA-F]{8}', s[i+1:]): # 8 digit unicode
-                r += unichr(int(s[i+2:i+10], 16))
+            elif re.match(r'U[0-9a-fA-F]{8}', s[i + 1:]):  # 8 digit unicode
+                r += unichr(int(s[i + 2:i + 10], 16))
                 i += 10
-            else: # other escaped characters
-                c = s[i+1]
+            else:  # other escaped characters
+                c = s[i + 1]
                 r += u8(RECHARS[c]) if regexp and c in RECHARS else \
-                     u8(UCHARS[c]) if c in UCHARS else \
-                     c
+                    u8(UCHARS[c]) if c in UCHARS else \
+                        c
                 i += 2
         else:
             r += c
             i += 1
     return r
+
 
 #
 # DATA GENERATORS, with some inheritance
@@ -2527,6 +2538,7 @@ def unescape(s, regexp=False):
 # global tuple counter
 tuple_count = 0
 generator_count = 0
+
 
 class Generator(object):
     """Generator is the base class for generating valid data,
@@ -2544,65 +2556,75 @@ class Generator(object):
     - int size: number of underlying values (may be None)
     """
     # expected/allowed directives
-    DIRS = {'null':float, 'type':str }
+    DIRS = {'null': float, 'type': str}
+
     def __init__(self, att, params=None):
         global generator_count
         generator_count += 1
         self.att = att
         self.params = {}
         self.params.update(params if params != None else \
-                           att.params if att != None else \
-                           {})
+                               att.params if att != None else \
+                                   {})
         # show generators
         if opts.debug:
             debug(1, "{0}: {1} {2}".format(att, generator_count,
                                            self.__class__))
             debug(2, "params: {0}".format(strDict(self.params)))
         self.type = self.params['type'].lower() if 'type' in self.params else \
-                    att.type if att else \
-                    None
+            att.type if att else \
+                None
         # null probability
         self.nullp = 0.0
-        if self.att == None: # for tests
+        if self.att == None:  # for tests
             self.nullp = \
                 self.params.get('null', opts.null if opts.null else 0.0)
         elif self.att.isNullable():
             self.nullp = self.params['null'] if 'null' in self.params else \
                 self.att.table.params['null'] \
                     if 'null' in self.att.table.params else \
-                opts.null
+                    opts.null
         assert 0.0 <= self.nullp and self.nullp <= 1.0, \
             "{0}: 'null' not in [0,1]".format(self)
         # underlying call counter and overall size, common to all generators
         self.gens, self.size = 0, None
         self.cleanParams(Generator.DIRS)
+
     def cleanParams(self, dirs):
         """Remove parameters once processed."""
         for d in dirs:
             if d in self.params:
                 del self.params[d]
+
     def mapGen(self, func):
         """Apply func on all generators."""
         func(self)
+
     def shareSeed(self):
         """Reseed when under 'share'"""
         pass
+
     def notNull(self):
         self.nullp = 0.0
+
     def setShare(self, shared):
         self.shared = shared
+
     def __str__(self):
         if self.att:
             return "{0} {1}".format(self.__class__.__name__, self.att)
         else:
             return self.__class__.__name__
+
     def genData(self):
         """Generate actual data."""
         return None
 
+
 class NULLGenerator(Generator):
     """Generate a NULL value."""
     DIRS = {}
+
     def __init__(self, att=None, params=None):
         # check 'null'
         self.att = att
@@ -2612,15 +2634,19 @@ class NULLGenerator(Generator):
                 "{0}: 'null' is {1} instead of 1.0".format(self, p['null'])
         Generator.__init__(self, att, params)
         self.cleanParams(NULLGenerator.DIRS)
+
     def genData(self):
         return None
+
     def getData(self):
         return None
+
 
 class WithLength(Generator):
     """Set {min,max}len attributes."""
     # this is needed by String, Text & Blob...
-    DIRS = { 'lenmin':int, 'lenmax':int, 'length':int, 'lenvar':int }
+    DIRS = {'lenmin': int, 'lenmax': int, 'length': int, 'lenvar': int}
+
     def __init__(self, lenmin=None, lenmax=None):
         self.lenmin, self.lenmax = lenmin, lenmax
         mm = 'lenmin' in self.params or 'lenmax' in self.params
@@ -2639,7 +2665,7 @@ class WithLength(Generator):
                         del self.params['lenvar']
                     else:
                         self.lenmin = int(self.lenmax * 3 / 4)
-                else: # char(X)
+                else:  # char(X)
                     assert self.params.get('lenvar', 0) == 0, \
                         "{0}: non zero 'lenvar' on CHARS(*)".format(self)
                     self.lenmin = self.lenmax
@@ -2650,9 +2676,9 @@ class WithLength(Generator):
         if 'lenmin' in self.params:
             self.lenmin = self.params['lenmin']
         if 'length' in self.params or 'lenvar' in self.params:
-            length = self.params.get('length', int((lenmin+lenmax)/2))
+            length = self.params.get('length', int((lenmin + lenmax) / 2))
             lenvar = self.params.get('lenvar', 0)
-            self.lenmin, self.lenmax = length-lenvar, length+lenvar
+            self.lenmin, self.lenmax = length - lenvar, length + lenvar
         if self.lenmin != None and self.lenmax == None:
             self.lenmax = int(self.lenmin * 4 / 3)
         elif self.lenmax != None and self.lenmin == None:
@@ -2661,15 +2687,17 @@ class WithLength(Generator):
             self.lenmin, self.lenmax = lenmin, lenmax
         assert 0 <= self.lenmin and self.lenmin <= self.lenmax, \
             "{0}: inconsistent length [{1},{2}]". \
-            format(self, self.lenmin, self.lenmax)
+                format(self, self.lenmin, self.lenmax)
         self.cleanParams(WithLength.DIRS)
+
 
 class RandomGenerator(Generator):
     """Generate something based on random, possibly seeded.
 
     - Random _random: internal random number generator, possibly seeded
     """
-    DIRS = { 'share':str, 'seed':str }
+    DIRS = {'share': str, 'seed': str}
+
     def __init__(self, att, params=None):
         Generator.__init__(self, att, params)
         self._rand = random.Random()
@@ -2688,7 +2716,7 @@ class RandomGenerator(Generator):
             self.seed += self.params['seed'] + '_'
         elif opts.seed:
             self.seed += opts.seed + '_'
-        #elif self.att:
+        # elif self.att:
         #    self.seed = self.att.table.name + '_' + self.att.name + '_'
         else:
             # is it necessary/useful? depending on python version?
@@ -2697,20 +2725,24 @@ class RandomGenerator(Generator):
             self._rand.seed(self.seed)
         # else: it will be reseeded for each tuple in shareSeed, when called
         self.cleanParams(RandomGenerator.DIRS)
+
     def shareSeed(self):
         if self.shared:
             self._rand.seed(self.seed + str(self.shared.genData()))
-        super(RandomGenerator, self).shareSeed() # pass
+        super(RandomGenerator, self).shareSeed()  # pass
+
     def setShare(self, shared):
         self.shared = shared
-        super(RandomGenerator, self).setShare(shared) # pass
+        super(RandomGenerator, self).setShare(shared)  # pass
+
     def getData(self):
         """Generate a NULL or some data with genData()."""
         # only call the random generated if really needed
         return None if self.nullp == 1.0 else \
             self.genData() if self.nullp == 0.0 else \
-            None if self._rand.random() < self.nullp else \
-            self.genData()
+                None if self._rand.random() < self.nullp else \
+                    self.genData()
+
 
 # yep, RandomGenerator because of 'null'
 class ConstGenerator(RandomGenerator):
@@ -2718,21 +2750,25 @@ class ConstGenerator(RandomGenerator):
 
     - str cst: constant string to return.
     """
-    DIRS = { 'const':str }
+    DIRS = {'const': str}
+
     def __init__(self, att=None, params=None, cst=None, escape=True):
         RandomGenerator.__init__(self, att, params)
         if cst == None:
             cst = self.params['const'] if 'const' in self.params else ''
-        if isinstance(cst, bool): # fix if empty directive
+        if isinstance(cst, bool):  # fix if empty directive
             cst = ''
         self.cst = unescape(cst) if escape and cst.find('\\') != -1 else cst
         self.cleanParams(ConstGenerator.DIRS)
+
     def genData(self):
         return self.cst
 
+
 class CountGenerator(RandomGenerator):
     """Generate a count."""
-    DIRS = { 'start':str, 'step':int, 'format':str }
+    DIRS = {'start': str, 'step': int, 'format': str}
+
     def __init__(self, att, params=None):
         RandomGenerator.__init__(self, att, params)
         self.start = int(self.params.get('start', 1))
@@ -2740,26 +2776,31 @@ class CountGenerator(RandomGenerator):
         self.format = u8("{{0:{0}}}").format(self.params.get('format', 'd'))
         assert self.step != 0, "{0}: 'step' must not be zero".format(self)
         self.cleanParams(CountGenerator.DIRS)
+
     def genData(self):
         self.gens += 1
         return self.format.format((self.gens - 1) * self.step + self.start)
+
 
 class BoolGenerator(RandomGenerator):
     """Generate True/False at a given 'rate'.
 
     - float rate: truth's rate, defaults to 0.5
     """
-    DIRS = { 'rate':float }
+    DIRS = {'rate': float}
+
     def __init__(self, att, params=None):
         RandomGenerator.__init__(self, att, params)
         self.rate = self.params.get('rate', 0.5)
         assert 0.0 <= self.rate and self.rate <= 1.0, \
             "{0}: rate {1} not in [0,1]".format(self, self.rate)
         self.cleanParams(BoolGenerator.DIRS)
+
     def genData(self):
         return False if self.rate == 0.0 else \
-               True  if self.rate == 1.0 else \
-               self._rand.random() < self.rate
+            True if self.rate == 1.0 else \
+                self._rand.random() < self.rate
+
 
 class FloatGenerator(RandomGenerator):
     """Generate floats with various distributions.
@@ -2768,7 +2809,8 @@ class FloatGenerator(RandomGenerator):
     - str sub: subtype of random generator
     - float alpha, beta: parameters
     """
-    DIRS = { 'float':str, 'alpha':float, 'beta':float }
+    DIRS = {'float': str, 'alpha': float, 'beta': float}
+
     def __init__(self, att, params=None):
         RandomGenerator.__init__(self, att, params)
         self.sub = self.params.get('float', 'uniform')
@@ -2778,29 +2820,31 @@ class FloatGenerator(RandomGenerator):
         self.beta = self.params.get('beta', 1.0)
         r, a, b, s = self._rand, self.alpha, self.beta, self.sub
         # check consistency
-        if self.sub in [ 'exp', 'pareto' ]:
+        if self.sub in ['exp', 'pareto']:
             assert not 'beta' in self.params, \
-                "{0}: unexpected 'beta' for float generator '{1}'".\
-                format(self, s)
+                "{0}: unexpected 'beta' for float generator '{1}'". \
+                    format(self, s)
         # genData() is overwritten depending on the generator subtype
         self.genData = \
-            (lambda: r.gauss(a, b))           if s == 'gauss'    else \
-            (lambda: r.betavariate(a, b))     if s == 'beta'     else \
-            (lambda: r.expovariate(a))        if s == 'exp'      else \
-            (lambda: r.gammavariate(a, b))    if s == 'gamma'    else \
-            (lambda: r.lognormvariate(a, b))  if s == 'log'      else \
-            (lambda: r.normalvariate(a, b))   if s == 'norm'     else \
-            (lambda: r.paretovariate(a))      if s == 'pareto'   else \
-            (lambda: r.uniform(a, b))         if s == 'uniform'  else \
-            (lambda: r.vonmisesvariate(a, b)) if s == 'vonmises' else \
-            (lambda: r.weibullvariate(a, b))  if s == 'weibull'  else \
-            None
+            (lambda: r.gauss(a, b)) if s == 'gauss' else \
+                (lambda: r.betavariate(a, b)) if s == 'beta' else \
+                    (lambda: r.expovariate(a)) if s == 'exp' else \
+                        (lambda: r.gammavariate(a, b)) if s == 'gamma' else \
+                            (lambda: r.lognormvariate(a, b)) if s == 'log' else \
+                                (lambda: r.normalvariate(a, b)) if s == 'norm' else \
+                                    (lambda: r.paretovariate(a)) if s == 'pareto' else \
+                                        (lambda: r.uniform(a, b)) if s == 'uniform' else \
+                                            (lambda: r.vonmisesvariate(a, b)) if s == 'vonmises' else \
+                                                (lambda: r.weibullvariate(a, b)) if s == 'weibull' else \
+                                                    None
         assert self.genData, \
             "{0}: unexpected float generator '{1}'".format(self, s)
         self.cleanParams(FloatGenerator.DIRS)
 
+
 from fractions import gcd
 import math
+
 
 class IntGenerator(RandomGenerator):
     """Generate integers, possibly mangled and offset.
@@ -2816,21 +2860,22 @@ class IntGenerator(RandomGenerator):
       their skewness.
     """
     # 60 handy primes for step mangling, about every 10,000,000
-    PRIMES = [ 1234567129, 1244567413, 1254567911, 1264567631, 1274567381,
-               1284567247, 1294567787, 1304567897, 1314568139, 1324568251,
-               1334568007, 1344567943, 1354567987, 1364568089, 1374568339,
-               1384568699, 1394567981, 1404568153, 1414568359, 1424568473,
-               1434567973, 1444568269, 1454567999, 1464568463, 1474568531,
-               1484568011, 1494568219, 1504568887, 1514568533, 1524567899,
-               1534568531, 1544568271, 1554568441, 1564568519, 1574568419,
-               1584567949, 1594568149, 1604568283, 1614568231, 1624568417,
-               1634568427, 1644568397, 1654568557, 1664568677, 1674568109,
-               1684568321, 1694568241, 1704567959, 1714568899, 1724568239,
-               1734567899, 1744567901, 1754567891, 1764567913, 1774567901,
-               1784567899, 1794567911, 1804567907, 1814567891, 1824567893 ]
-    DIRS = { 'sub':str, 'mangle':bool,
-             'size':int, 'offset':int, 'step':int, 'shift':int, 'xor':int,
-             'alpha':float, 'rate':float }
+    PRIMES = [1234567129, 1244567413, 1254567911, 1264567631, 1274567381,
+              1284567247, 1294567787, 1304567897, 1314568139, 1324568251,
+              1334568007, 1344567943, 1354567987, 1364568089, 1374568339,
+              1384568699, 1394567981, 1404568153, 1414568359, 1424568473,
+              1434567973, 1444568269, 1454567999, 1464568463, 1474568531,
+              1484568011, 1494568219, 1504568887, 1514568533, 1524567899,
+              1534568531, 1544568271, 1554568441, 1564568519, 1574568419,
+              1584567949, 1594568149, 1604568283, 1614568231, 1624568417,
+              1634568427, 1644568397, 1654568557, 1664568677, 1674568109,
+              1684568321, 1694568241, 1704567959, 1714568899, 1724568239,
+              1734567899, 1744567901, 1754567891, 1764567913, 1774567901,
+              1784567899, 1794567911, 1804567907, 1814567891, 1824567893]
+    DIRS = {'sub': str, 'mangle': bool,
+            'size': int, 'offset': int, 'step': int, 'shift': int, 'xor': int,
+            'alpha': float, 'rate': float}
+
     def __init__(self, att, params=None):
         RandomGenerator.__init__(self, att, params)
         # set generator subtype depending on attribute
@@ -2857,7 +2902,7 @@ class IntGenerator(RandomGenerator):
         if 'alpha' in self.params or 'rate' in self.params:
             assert self.sub in ['power', 'scale'], \
                 "{0}: unexpected 'alpha'/'beta' for int generator '{1}'". \
-                format(self, self.sub)
+                    format(self, self.sub)
         assert not ('alpha' in self.params and 'rate' in self.params), \
             "{0}: not both 'alpha' and 'rate' for '{1}'".format(self, self.sub)
         if 'alpha' in self.params:
@@ -2871,8 +2916,8 @@ class IntGenerator(RandomGenerator):
         self.mangle = self.params.get('mangle', False)
         self.step = self.params['step'] if 'step' in self.params else \
             IntGenerator.PRIMES[random.randrange(0, \
-                                len(IntGenerator.PRIMES))] if self.mangle else \
-            1
+                                                 len(IntGenerator.PRIMES))] if self.mangle else \
+                1
         assert self.step != 0, "{0}: 'step' must not be zero".format(self)
         self.shift = self.params['shift'] if 'shift' in self.params else None
         self.xor = self.params['xor'] if 'xor' in self.params else None
@@ -2881,10 +2926,11 @@ class IntGenerator(RandomGenerator):
         if 'size' in self.params:
             self.setSize(self.params['size'])
         elif att != None and att.size != None:
-            self.setSize(att.size) # possibly computed from table & mult
-        else: # later? when??
+            self.setSize(att.size)  # possibly computed from table & mult
+        else:  # later? when??
             self.size = None
         self.cleanParams(IntGenerator.DIRS)
+
     def setSize(self, size):
         assert (isinstance(size, int) or isinstance(size, long)) and size > 0, \
             "{0}: 'size' {1} must be > 0".format(self, size)
@@ -2900,7 +2946,7 @@ class IntGenerator(RandomGenerator):
                              format(self.att, self.step, size))
             self.step = 1
         if self.xor == None:
-            self.xor = random.randrange(1, 1000*size) if self.mangle else 0
+            self.xor = random.randrange(1, 1000 * size) if self.mangle else 0
         if self.shift == None:
             self.shift = random.randrange(0, size) if self.mangle else 0
         if self.xor != 0:
@@ -2908,7 +2954,7 @@ class IntGenerator(RandomGenerator):
             m = 1
             while m <= self.size:
                 m *= 2
-            self.mask = int(m/2) # ???
+            self.mask = int(m / 2)  # ???
         # get generator parameters, which may depend on size
         if self.sub == 'power' or self.sub == 'scale':
             if self.rate != None:
@@ -2916,15 +2962,16 @@ class IntGenerator(RandomGenerator):
                     "{0}: rate {1} not in (0,1)".format(self, self.rate)
                 if self.sub == 'power':
                     self.alpha = - math.log(size) / math.log(self.rate)
-                else: # self.sub == 'scale':
+                else:  # self.sub == 'scale':
                     self.alpha = self.rate * (size - 1.0) / (1.0 - self.rate)
             elif self.alpha == None:
                 self.alpha = 1.0
             assert self.alpha > 0, \
                 "{0}: 'alpha' {1:f} not > 0".format(self, self.alpha)
-        else: # should not get there
+        else:  # should not get there
             assert self.alpha == None, \
                 "{0}: useless 'alpha' {1} set".format(self, self.alpha)
+
     def genData(self):
         assert self.size != None and self.size > 0, \
             "{0}: cannot draw from empty set".format(self)
@@ -2935,15 +2982,15 @@ class IntGenerator(RandomGenerator):
             return self.offset
         assert self.shift != None, "{0}: shift is set".format(self)
         if self.sub == 'serial' or \
-           self.sub == 'serand' and self.gens - 1 < self.size:
+                self.sub == 'serand' and self.gens - 1 < self.size:
             base = (self.gens - 1) % self.size
         elif self.sub == 'uniform' or self.sub == 'serand':
             base = int(self._rand.randrange(0, self.size))
         elif self.sub == 'power':
             base = int(self.size * self._rand.random() ** self.alpha)
-        else: # self.sub == 'scale':
+        else:  # self.sub == 'scale':
             v = self._rand.random()
-            base = int(self.size * (v / ((1 - self.alpha ) * v + self.alpha)))
+            base = int(self.size * (v / ((1 - self.alpha) * v + self.alpha)))
         assert 0 <= base and base < self.size, \
             "{0}: base {1:d} not in [0,{2:d})".format(self, base, self.size)
         # return possibly mangled result
@@ -2952,11 +2999,12 @@ class IntGenerator(RandomGenerator):
             m = self.mask
             while m > 0:
                 if m & self.size != 0 and m & base == 0:
-                    base = ((base ^ self.xor)  & (m - 1)) | (base & ~ (m - 1))
+                    base = ((base ^ self.xor) & (m - 1)) | (base & ~ (m - 1))
                     break
-                m = int(m/2)
+                m = int(m / 2)
         # then linear step:
         return self.offset + (self.shift + self.step * base) % self.size
+
 
 # ??? This could also be based on FloatGenerator? '4.2 days' is okay for pg.
 class IntervalGenerator(IntGenerator):
@@ -2964,17 +3012,21 @@ class IntervalGenerator(IntGenerator):
 
     - str unit: time unit for the interval, default is 's' (seconds)
     """
-    DIRS = { 'unit':str }
+    DIRS = {'unit': str}
+
     def __init__(self, att, params=None):
         IntGenerator.__init__(self, att, params)
         self.unit = self.params.get('unit', 's')
         self.cleanParams(IntervalGenerator.DIRS)
+
     def genData(self):
         # ??? maybe it should not depend on db?
         return db.intervalValue(super(IntervalGenerator, self).genData(),
                                 self.unit)
 
-from datetime import date, datetime, timedelta
+
+from datetime import date, timedelta
+
 
 class DateGenerator(IntGenerator):
     """Generate dates between 'start' and 'end' at precision 'prec'.
@@ -2983,17 +3035,19 @@ class DateGenerator(IntGenerator):
     - int dir: direction from reference date
     - int prec: precision in days
     """
-    DIRS = { 'start':str, 'end':str, 'prec':int }
+    DIRS = {'start': str, 'end': str, 'prec': int}
+
     @staticmethod
     def parse(s):
         return datetime.date(datetime.strptime(s, "%Y-%m-%d"))
+
     def __init__(self, att, params=None):
         IntGenerator.__init__(self, att, params)
         self.offset = 0
         start, end = 'start' in self.params, 'end' in self.params
         ref = self.params['start'] if start else \
-              self.params['end'] if end else \
-              None
+            self.params['end'] if end else \
+                None
         if ref != None:
             self.ref = DateGenerator.parse(ref)
             self.dir = 2 * ('start' in self.params) - 1
@@ -3012,12 +3066,15 @@ class DateGenerator(IntGenerator):
             delta = (dend - self.ref) / self.prec
             self.setSize(delta.days + 1)
         self.cleanParams(DateGenerator.DIRS)
+
     def genData(self):
         d = self.ref + self.dir * \
             timedelta(days=self.prec * IntGenerator.genData(self))
         return db.dateValue(d)
 
+
 from datetime import datetime
+
 
 class TimestampGenerator(IntGenerator):
     """Generate timestamps between 'start' and 'end'.
@@ -3027,19 +3084,21 @@ class TimestampGenerator(IntGenerator):
     - int prec: precision in seconds, default 60 seconds
     - str tz: set in this time zone, may be None
     """
-    DIRS = { 'tz':str }
+    DIRS = {'tz': str}
     DIRS.update(DateGenerator.DIRS)
+
     @staticmethod
     def parse(s):
         return datetime.strptime(s, "%Y-%m-%d %H:%M:%S")
+
     def __init__(self, att, params=None):
         IntGenerator.__init__(self, att, params)
         self.offset = 0
         self.tz = self.params.get('tz')
         start, end = 'start' in self.params, 'end' in self.params
         ref = self.params['start'] if start else \
-              self.params['end'] if end else \
-              None
+            self.params['end'] if end else \
+                None
         if ref != None:
             self.ref = TimestampGenerator.parse(ref)
             self.dir = 2 * ('start' in self.params) - 1
@@ -3055,19 +3114,22 @@ class TimestampGenerator(IntGenerator):
                 "{0}: 'end' must be after 'start'".format(self)
             d = (dend - self.ref) / self.prec
             # t = d.total_seconds() # requires 2.7
-            t = (d.microseconds + (d.seconds + d.days * 86400) * 10**6) / 10**6
+            t = (d.microseconds + (d.seconds + d.days * 86400) * 10 ** 6) / 10 ** 6
             self.setSize(int(t + 1))
         self.cleanParams(TimestampGenerator.DIRS)
+
     def genData(self):
         t = self.ref + self.dir * \
             timedelta(seconds=self.prec * \
-                      super(TimestampGenerator, self).genData())
+                              super(TimestampGenerator, self).genData())
         # ??? should not depend on db
         return db.timestampValue(t, self.tz)
+
 
 class WithSubgen(Generator):
     """Set a sub-generator from a macro or parameters."""
     DIRS = {}
+
     def __init__(self, name=None, att=None, p={}, g=None, backup=False):
         if g:
             self.subgen = g
@@ -3082,10 +3144,12 @@ class WithSubgen(Generator):
         if self.shared and self.subgen:
             self.subgen.shared = self.shared
         self.cleanParams(WithSubgen.DIRS)
+
     def mapGen(self, func):
         super(WithSubgen, self).mapGen(func)
-        if self.subgen: # may be None for empty arrays
+        if self.subgen:  # may be None for empty arrays
             self.subgen.mapGen(func)
+
 
 class StringGenerator(IntGenerator, WithLength):
     """Generate a basic string, like "stuff_12_12_12"
@@ -3093,29 +3157,34 @@ class StringGenerator(IntGenerator, WithLength):
     - str prefix: use attribute name by default
     - int lenmin, lenmax: expected length
     """
-    DIRS = { 'prefix':str } # | WithLength.DIRS
+    DIRS = {'prefix': str}  # | WithLength.DIRS
+
     def __init__(self, att, params=None):
         IntGenerator.__init__(self, att, params)
         WithLength.__init__(self, 8, 16)
         # set defaults from attributes
         self.prefix = self.params.get('prefix', att.name if att else 'str')
         if self.size == None:
-            self.setSize(opts.size if opts.size else 1000) # ???
+            self.setSize(opts.size if opts.size else 1000)  # ???
         self.cleanParams(StringGenerator.DIRS)
+
     def lenData(self, length, n):
         """Generate a data for int n of length"""
         sn = '_' + str(n)
         s = self.prefix + sn * int(2 + (length - len(self.prefix)) / len(sn))
         return s[:int(length)]
+
     def baseData(self, n):
         # data dependent length so as to be deterministic
         s = self.lenData(self.lenmax, n)
         # ! hash(s) is not deterministic from python 3.3
-        hs = sum(ord(s[i])*(997*i+1) for i in range(len(s)))
+        hs = sum(ord(s[i]) * (997 * i + 1) for i in range(len(s)))
         length = self.lenmin + hs % (self.lenmax - self.lenmin + 1)
         return s[:int(length)]
+
     def genData(self):
         return self.baseData(super(StringGenerator, self).genData())
+
 
 # two generators are needed, one for the chars & one for the words
 # the parameterized inherited generator is used for the words
@@ -3127,7 +3196,8 @@ class CharsGenerator(WithSubgen, StringGenerator):
 
     - str chars: list of characters to draw from
     - IntGenerator cgen: generator for choosing characters"""
-    DIRS = { 'chars':str, 'cgen':str }
+    DIRS = {'chars': str, 'cgen': str}
+
     @staticmethod
     def parseCharSequence(obj, s):
         """Generate list of characters to choose from."""
@@ -3139,20 +3209,21 @@ class CharsGenerator(WithSubgen, StringGenerator):
         d = c.find('-')
         while d != -1:
             if d == 0:
-                chars += '-' # leading dash means itself
+                chars += '-'  # leading dash means itself
                 c = c[1:]
             else:
-                assert d < len(c)-1, \
+                assert d < len(c) - 1, \
                     "{0}: '{1}' cannot end with dash".format(obj, s)
-                if d > 1: # extract leading <stuff>
-                    chars += c[0:d-1]
+                if d > 1:  # extract leading <stuff>
+                    chars += c[0:d - 1]
                 chars += \
-                    ''.join(chr(x) for x in range(ord(c[d-1]), ord(c[d+1])+1))
-                c = c[d+2:]
+                    ''.join(chr(x) for x in range(ord(c[d - 1]), ord(c[d + 1]) + 1))
+                c = c[d + 2:]
             d = c.find('-')
         # append remaining stuff
         chars += c
         return chars
+
     def __init__(self, att=None, params=None, chars=None):
         StringGenerator.__init__(self, att, params)
         if att != None and att.isUnique():
@@ -3163,25 +3234,31 @@ class CharsGenerator(WithSubgen, StringGenerator):
         assert len(self.chars) > 0, \
             "{0}: no characters to draw from".format(self)
         WithSubgen.__init__(self, 'cgen', None, self.params, backup=True)
-        self.subgen.setSize(len(self.chars)) # number of chars
+        self.subgen.setSize(len(self.chars))  # number of chars
         self.subgen.offset = 0
         self.cleanParams(CharsGenerator.DIRS)
+
     def lenData(self, length, n):
         # ??? be deterministic in n and depend on seed option
         self.subgen._rand.seed(self.seed + str(n))
         s = ''.join(self.chars[self.subgen.genData()] for i in range(length))
         return s
 
+
 class SeedGenerator(IntGenerator):
     DIRS = {}
+
     def __init__(self, att, params):
         IntGenerator.__init__(self, att, params)
         self._rand2 = random.Random()
         self.cleanParams(SeedGenerator.DIRS)
+
     def reseed(self):
         self._rand2.seed(self.seed + str(super(SeedGenerator, self).genData()))
+
     def genData(self):
         raise Exception("{0}: cannot call genData() on this class")
+
 
 class LuhnGenerator(SeedGenerator):
     """Generate stuff with a Luhn checksum.
@@ -3190,7 +3267,8 @@ class LuhnGenerator(SeedGenerator):
     - str prefix: optional prefix, defaults to empty
     - ckSum: function to compute check digit
     """
-    DIRS = { 'length':int, 'prefix':str }
+    DIRS = {'length': int, 'prefix': str}
+
     def __init__(self, att, params=None):
         SeedGenerator.__init__(self, att, params)
         self.length = self.params.get('length', 16)
@@ -3200,24 +3278,27 @@ class LuhnGenerator(SeedGenerator):
             self.setSize(opts.size if opts.size else 100)
         self.prefix = str(self.params.get('prefix', ''))
         assert len(self.prefix) < self.length, \
-            "{0}: 'prefix' \"{1}\" length not smaller than 'length' {2}".\
-            format(self, self.prefix, self.length)
+            "{0}: 'prefix' \"{1}\" length not smaller than 'length' {2}". \
+                format(self, self.prefix, self.length)
         if self.__class__ == LuhnGenerator:
             assert re.match(r'\d*$', self.prefix), \
                 "{0}: 'prefix' {1} not decimal".format(self, self.prefix)
         self.ckSum = self.luhnDigit
         self.cleanParams(LuhnGenerator.DIRS)
+
     def luhnDigit(self, s):
         """Luhn's algorithm, see http://en.wikipedia.org/wiki/Luhn_algorithm."""
         assert len(s) == self.length - 1
         t = s[-2::-2] + ''.join(str(2 * int(c)) for c in s[-1::-2])
         return str(9 * sum(int(i) for i in t) % 10)
+
     def genData(self):
         self.reseed()
         code = self.prefix + \
                ''.join(str(self._rand2.randint(0, 9)) \
                        for i in range(self.length - len(self.prefix) - 1))
         return code + self.ckSum(code)
+
 
 # there are some isbn/ean management modules, but they must be installed
 # they would be only useful for computing the checksum digit, no big deal
@@ -3227,6 +3308,7 @@ class EANGenerator(LuhnGenerator):
     EAN = International Article Number (!)
     """
     DIRS = {}
+
     def __init__(self, att=None, params=None):
         LuhnGenerator.__init__(self, att, params)
         if not self.type:
@@ -3236,19 +3318,20 @@ class EANGenerator(LuhnGenerator):
         # set prefix for IS*N embedded in EAN13. ISBN13 could also use 979.
         if not self.prefix:
             self.prefix = '977' if self.type == 'issn13' else \
-                          '978' if self.type == 'isbn13' else \
-                          '9790' if self.type == 'ismn13' else \
-                          'M' if self.type == 'ismn' else \
-                          ''
+                '978' if self.type == 'isbn13' else \
+                    '9790' if self.type == 'ismn13' else \
+                        'M' if self.type == 'ismn' else \
+                            ''
         assert re.match(r'M?\d*', self.prefix), \
             "{0}: invalid 'prefix' {0}".format(self, self.prefix)
         assert len(self.prefix) < self.length, \
-            "{0}: 'prefix' \"{1}\" length must be smaller than 'length' {2}".\
+            "{0}: 'prefix' \"{1}\" length must be smaller than 'length' {2}". \
                 format(self, self.prefix, self.length)
         self.ckSum = self.ckSumISN \
-                         if self.type == 'isbn' or self.type == 'issn' else \
-                     self.ckSumEAN # *13 & UPC & ISMN
+            if self.type == 'isbn' or self.type == 'issn' else \
+            self.ckSumEAN  # *13 & UPC & ISMN
         self.cleanParams(EANGenerator.DIRS)
+
     # checksum methods
     def ckSumEAN(self, s):
         assert len(s) == self.length - 1
@@ -3256,12 +3339,14 @@ class EANGenerator(LuhnGenerator):
         for i in range(1, self.length):
             # special 'M' hack for ISMN numbers
             t += w * int(3 if s[-i] == 'M' else s[-i])
-            w = 4 - w # 3 -> 1 -> 3 ...
+            w = 4 - w  # 3 -> 1 -> 3 ...
         return str(-t % 10)
+
     def ckSumISN(self, s):
         assert len(s) == self.length - 1
         t = sum(int(s[-i]) * (i + 1) for i in range(1, self.length)) % 11
         return '0' if t == 0 else 'X' if t == 1 else str(11 - t)
+
 
 class WordGenerator(IntGenerator):
     """Generate words, from a list of file
@@ -3276,14 +3361,15 @@ class WordGenerator(IntGenerator):
                  'Doderic Dodinas Donnamira Dora Drogo Dudo Eglantine Elanor ' +
                  'Elfstan Esmeralda Estella Everard Falco Faramir Farmer ' +
                  'Fastolph Fastred Ferdibrand Ferdinand Ferumbras').split(' ')
-    DIRS = { 'word':str }
+    DIRS = {'word': str}
+
     def __init__(self, att, params=None, words=None):
         # keep explicit size for later
         self.__size = params['size'] if params and 'size' in params else \
             att.params['size'] if att and 'size' in att.params else \
-            None
+                None
         # NOT att.size: this is computed and does not supersede len(words)
-        self.words = None # temporary
+        self.words = None  # temporary
         IntGenerator.__init__(self, att, params)
         assert not (words and 'word' in self.params), \
             "internal constructor issue, two word list specification!"
@@ -3296,11 +3382,11 @@ class WordGenerator(IntGenerator):
                 self.words = spec[1:].split(',')
             elif opts.self_test_hack:
                 # self tests cannot depend from an external file
-                #print("-- use Hobbit list for testing...")
+                # print("-- use Hobbit list for testing...")
                 self.words = WordGenerator.HOBBITS
             else:
                 # load word list from file
-                f = open(spec)
+                f = open(spec, encoding='utf-8')
                 assert f, "{0}: cannnot open '{1}'".format(self, spec)
                 self.words = [u(l.rstrip()) for l in f]
                 f.close()
@@ -3311,6 +3397,7 @@ class WordGenerator(IntGenerator):
             "{0}: 'size' {1} >  number of words {2}". \
                 format(self, self.size, len(self.words))
         self.cleanParams(WordGenerator.DIRS)
+
     def setSize(self, size):
         if self.words == None:
             #  hack: too early!
@@ -3322,17 +3409,20 @@ class WordGenerator(IntGenerator):
         # do not access the list out of bounds
         if self.offset + self.size > len(self.words):
             self.offset = self.size - len(self.words)
+
     def genData(self):
         return self.words[super(WordGenerator, self).genData()]
 
+
 class ArrayGenerator(WithSubgen, WithLength, IntGenerator):
     """Generate list from another generator."""
-    DIRS = { 'array':str }
+    DIRS = {'array': str}
+
     def __init__(self, att=None, params=None, dir='array',
                  lenmin=5, lenmax=25, gen=None):
         IntGenerator.__init__(self, att, params)
         if gen:
-            assert not dir in self.params # constructor consistency
+            assert not dir in self.params  # constructor consistency
             self.subgen = gen
         else:
             if dir == 'array' and not dir in self.params:
@@ -3345,43 +3435,52 @@ class ArrayGenerator(WithSubgen, WithLength, IntGenerator):
         if self.subgen:
             self.setSize(self.lenmax - self.lenmin + 1)
             self.offset = self.lenmin
-        else: # empty array
+        else:  # empty array
             self.offset, self.size = 0, 1
         self.cleanParams(ArrayGenerator.DIRS)
+
     def genData(self):
         return [self.subgen.genData()
-                for i in range(super(ArrayGenerator ,self).genData())]
+                for i in range(super(ArrayGenerator, self).genData())]
+
 
 # similar to RepeatGenerator, but with a different syntax
 class TextGenerator(ArrayGenerator):
     """Generate text from another generator."""
-    DIRS = { 'text':str, 'separator':str, 'prefix':str, 'suffix':str }
+    DIRS = {'text': str, 'separator': str, 'prefix': str, 'suffix': str}
+
     def __init__(self, att, params=None):
         ArrayGenerator.__init__(self, att, params, 'text')
         self.sep = self.params.get('separator', ' ')
         self.prefix = self.params.get('prefix', '')
         self.suffix = self.params.get('suffix', '')
         self.cleanParams(TextGenerator.DIRS)
+
     def genData(self):
         l = super(TextGenerator, self).genData()
         return self.prefix + self.sep.join(str(i) for i in l) + self.suffix
 
+
 class BlobGenerator(WithLength, SeedGenerator):
     """Generate binary large object."""
     DIRS = {}
+
     def __init__(self, att, params=None):
         SeedGenerator.__init__(self, att, params)
         WithLength.__init__(self, 8, 16)
         self.cleanParams(BlobGenerator.DIRS)
+
     def genData(self):
         self.reseed()
         len = self._rand2.randint(self.lenmin, self.lenmax)
         return bytes([self._rand2.randrange(256) for o in range(len)])
 
+
 #
 # generate some files for file generator tests
 #
 some_tmp_files_to_unlink = []
+
 
 def generate_some_tmp_files():
     # under self-test, generates a bunch of small temporary files
@@ -3395,6 +3494,7 @@ def generate_some_tmp_files():
         some_tmp_files_to_unlink.append(f.name)
         f.close()
 
+
 def cleanup_some_tmp_files():
     import os
     global some_tmp_files_to_unlink
@@ -3402,12 +3502,14 @@ def cleanup_some_tmp_files():
         os.unlink(f)
     some_tmp_files_to_unlink = []
 
+
 class FileGenerator(IntGenerator):
     """Generate contents from files.
 
     - str[] files: list of files
     """
-    DIRS = { 'file':str, 'mode':str }
+    DIRS = {'file': str, 'mode': str}
+
     def __init__(self, att, params=None):
         IntGenerator.__init__(self, att, params)
         # get list of files
@@ -3426,7 +3528,7 @@ class FileGenerator(IntGenerator):
         assert mode == 'blob' or mode == 'text', \
             "{0}: mode must be 'blob' or 'text'".format(self)
         self.conv = bytes if mode == 'blob' else \
-                    lambda s: s.decode(opts.encoding)
+            lambda s: s.decode(opts.encoding)
         # set size & offset
         assert len(self.files) > 0, "{0}: non empty set of files".format(self)
         if self.size == None:
@@ -3435,11 +3537,13 @@ class FileGenerator(IntGenerator):
             self.size = len(self.files)
         self.offset = 0
         self.cleanParams(FileGenerator.DIRS)
+
     def genData(self):
-        f = open(self.files[super(FileGenerator, self).genData()], "rb")
+        f = open(self.files[super(FileGenerator, self).genData()], "rb", encoding='utf-8')
         s = self.conv(f.read())
         f.close()
         return s
+
 
 class InetGenerator(IntGenerator):
     """Generate Internet addresses.
@@ -3448,7 +3552,8 @@ class InetGenerator(IntGenerator):
     - int net, mask: ip and mask from 'network'
     - tonet: int to address conversion function
     """
-    DIRS = { 'inet':str }
+    DIRS = {'inet': str}
+
     def __init__(self, att, params=None):
         IntGenerator.__init__(self, att, params)
         # get network target and mask
@@ -3474,8 +3579,8 @@ class InetGenerator(IntGenerator):
         else:
             # IPv4: local implementation, ipaddress is not always available
             self.tonet = lambda i: \
-                '.'.join(str(int((i & (255 << n*8)) / (1 << n*8))) \
-                         for n in range(3,-1,-1))
+                '.'.join(str(int((i & (255 << n * 8)) / (1 << n * 8))) \
+                         for n in range(3, -1, -1))
             if self.network.find('/') == -1:
                 self.network += '/24'
             ipv4, m = re.match(r'(.*)/(.*)', self.network).group(1, 2)
@@ -3494,7 +3599,7 @@ class InetGenerator(IntGenerator):
                 assert False, "{0}: invalid ipv4 {1}".format(self, self.network)
             assert 0 <= n and n <= 0xffffffff, \
                 "{0}: ipv4 address {1} not on 4 bytes".format(self, n)
-            self.mask = (1 << (32-m)) - 1
+            self.mask = (1 << (32 - m)) - 1
             self.net = n & (0xffffffff ^ self.mask)
         # override size & offset if was not set explicitely
         size = self.mask - 1 + int(beg) + int(end)
@@ -3509,20 +3614,25 @@ class InetGenerator(IntGenerator):
         if not 'offset' in self.params:
             self.offset = int(not beg)
         self.cleanParams(InetGenerator.DIRS)
+
     def genData(self):
         return self.tonet(super(InetGenerator, self).genData() + self.net)
+
 
 # maybe it should rely on IntGenerator?
 class MACGenerator(SeedGenerator):
     """Generate MAC Addresses."""
     DIRS = {}
+
     def __init__(self, att, params=None):
         SeedGenerator.__init__(self, att, params)
         self.cleanParams(MACGenerator.DIRS)
+
     def genData(self):
         self.reseed()
         return ':'.join(format(self._rand2.randrange(256), '02X') \
                         for i in range(6))
+
 
 #
 # special aggregation generators...
@@ -3534,6 +3644,7 @@ class ListGenerator(RandomGenerator):
     - Generator[] gens
     """
     DIRS = {}
+
     def __init__(self, att=None, params=None, name=None, gens=None):
         RandomGenerator.__init__(self, att, params)
         if gens:
@@ -3546,55 +3657,67 @@ class ListGenerator(RandomGenerator):
             l = self.params[name]
             if l:
                 self.gens = [macroGenerator(n) if n in df_macro else \
-                             createGenerator(None, n, {}) \
+                                 createGenerator(None, n, {}) \
                              for n in l.split(',')]
             else:
                 self.gens = []
-            #self.gens = list(map(macroGenerator, self.params[name].split(',')))
+            # self.gens = list(map(macroGenerator, self.params[name].split(',')))
         self.cleanParams(ListGenerator.DIRS)
+
     def mapGen(self, func):
         super(ListGenerator, self).mapGen(func)
         list(map(lambda g: g.mapGen(func), self.gens))
+
     def genData(self):
         return [c.getData() for c in self.gens]
 
+
 class CatGenerator(ListGenerator):
     """Generate by concatenating texts from other generators. """
-    DIRS = { 'cat':str }
+    DIRS = {'cat': str}
+
     def __init__(self, att=None, params=None, gens=None):
         ListGenerator.__init__(self, att, params, 'cat', gens)
         self.cleanParams(CatGenerator.DIRS)
+
     def genData(self):
         return ''.join(str(c) for c in super(CatGenerator, self).genData())
 
+
 class TupleGenerator(ListGenerator):
     """Generate a tuple"""
-    DIRS = { 'tuple':str }
+    DIRS = {'tuple': str}
+
     def __init__(self, att=None, params=None):
         ListGenerator.__init__(self, att, params, 'tuple')
         self.cleanParams(TupleGenerator.DIRS)
+
     def genData(self):
         return tuple(super(TupleGenerator, self).genData())
 
+
 class ReduceGenerator(ListGenerator):
     """Reduce a list of float generators"""
-    DIRS= { 'reduce':str, 'op':str }
-    OPS = { '+':(lambda a, b: float(a) + float(b)),
-            '*':(lambda a, b: float(a) * float(b)),
-            'max':(lambda a, b: a if a > b else b),
-            'min':(lambda a, b: a if a < b else b),
-            # this is really akin to CatGenerator
-            'cat':(lambda a, b: str(a) + str(b)) }
+    DIRS = {'reduce': str, 'op': str}
+    OPS = {'+': (lambda a, b: float(a) + float(b)),
+           '*': (lambda a, b: float(a) * float(b)),
+           'max': (lambda a, b: a if a > b else b),
+           'min': (lambda a, b: a if a < b else b),
+           # this is really akin to CatGenerator
+           'cat': (lambda a, b: str(a) + str(b))}
+
     def __init__(self, att=None, params=None):
         ListGenerator.__init__(self, att, params, 'reduce')
         op = self.params.get('op', '+')
         assert op in ReduceGenerator.OPS, \
             "{0}: unexpected operation '{1}', expecting {2}". \
-            format(self, op, sorted(ReduceGenerator.OPS))
+                format(self, op, sorted(ReduceGenerator.OPS))
         self.op = ReduceGenerator.OPS[op]
         self.cleanParams(ReduceGenerator.DIRS)
+
     def genData(self):
         return reduce(self.op, super(ReduceGenerator, self).genData())
+
 
 class AltGenerator(RandomGenerator):
     """Generate from one in a weighted set.
@@ -3603,14 +3726,15 @@ class AltGenerator(RandomGenerator):
     - int[] weight: their respective weights
     - int total_weight: sum of weights
     """
-    DIRS = { 'alt':str }
+    DIRS = {'alt': str}
+
     def __init__(self, att=None, params=None, gens=None):
         RandomGenerator.__init__(self, att, params)
         if gens != None:
             assert not params
             self.alts = gens
             self.total_weight = len(gens)
-            self.weight = [1 for i in range(self.total_weight) ]
+            self.weight = [1 for i in range(self.total_weight)]
         else:
             assert 'alt' in self.params, \
                 "{0}: mandatory 'alt' directive".format(self)
@@ -3630,12 +3754,14 @@ class AltGenerator(RandomGenerator):
                 self.alts.append(gen)
                 self.weight.append(w)
                 self.total_weight += w
-                if isinstance(gen, IntGenerator) and gen.size == None: # ???
+                if isinstance(gen, IntGenerator) and gen.size == None:  # ???
                     gen.setSize(opts.size)
         self.cleanParams(AltGenerator.DIRS)
+
     def mapGen(self, func):
         super(AltGenerator, self).mapGen(func)
         list(map(lambda g: g.mapGen(func), self.alts))
+
     def genData(self):
         # weighted choice
         index, weight = 0, self._rand.randrange(self.total_weight)
@@ -3644,9 +3770,11 @@ class AltGenerator(RandomGenerator):
             index += 1
         return self.alts[index].genData()
 
+
 class RepeatGenerator(ArrayGenerator):
     """Generate repeated stuff."""
-    DIRS = { 'repeat':str, 'extent':str }
+    DIRS = {'repeat': str, 'extent': str}
+
     def __init__(self, att, params=None, gen=None):
         p = params if params else att.params
         self.att = None
@@ -3662,7 +3790,7 @@ class RepeatGenerator(ArrayGenerator):
             else:
                 min, max = extent, extent
             min, max = int(min), int(max)
-            assert 0 <= min and  min <= max, \
+            assert 0 <= min and min <= max, \
                 "{0}: extent must be 0 <= {1} <= {2}".format(self, min, max)
         else:
             min, max = 1, 1
@@ -3672,8 +3800,10 @@ class RepeatGenerator(ArrayGenerator):
         self.setSize(max - min + 1)
         self.offset = min
         self.cleanParams(RepeatGenerator.DIRS)
+
     def genData(self):
         return ''.join(super(RepeatGenerator, self).genData())
+
 
 #
 # PATTERN PARSING UTILS
@@ -3681,6 +3811,7 @@ class RepeatGenerator(ArrayGenerator):
 # Hmmm... This is pretty awful code. Not sure how to improve it.
 class Pattern:
     """Pattern parsing utils."""
+
     @staticmethod
     def skipRepeat(pattern, i=0):
         """Return next character after repetition specification."""
@@ -3692,6 +3823,7 @@ class Pattern:
             elif pattern[i] in '?+*':
                 i += 1
         return i
+
     @staticmethod
     def catSplit(pattern):
         """Split pattern for cat.
@@ -3709,40 +3841,40 @@ class Pattern:
                     opened -= 1
                 elif pattern[i] == '(':
                     opened += 1
-                elif pattern[i] == '\\': # escaped character
+                elif pattern[i] == '\\':  # escaped character
                     i += 1
-                elif pattern[i] == '[': # skip embedded [...]
-                    i = pattern.index(']', i + (3 if pattern[i+1]=='^' else 2))
+                elif pattern[i] == '[':  # skip embedded [...]
+                    i = pattern.index(']', i + (3 if pattern[i + 1] == '^' else 2))
                 i += 1
             # find whether it is repeated
             end = Pattern.skipRepeat(pattern, i)
-            return [ [ pattern[0:i], pattern[i:end] ] ] + \
-                Pattern.catSplit(pattern[end:])
+            return [[pattern[0:i], pattern[i:end]]] + \
+                   Pattern.catSplit(pattern[end:])
         elif pattern[0] == '[':
             # find matching ']', skip 1/2 whatever, may be ']' or '^]'
             i = pattern.index(']', 3 if pattern[1] == '^' else 2) + 1
             end = Pattern.skipRepeat(pattern, i)
-            return [ [ pattern[0:i], pattern[i:end] ] ] + \
-                Pattern.catSplit(pattern[end:])
+            return [[pattern[0:i], pattern[i:end]]] + \
+                   Pattern.catSplit(pattern[end:])
         elif pattern[0] == '.':
             end = Pattern.skipRepeat(pattern, 1)
-            return [ [ '.', pattern[1:end] ] ] + \
-                Pattern.catSplit(pattern[end:])
+            return [['.', pattern[1:end]]] + \
+                   Pattern.catSplit(pattern[end:])
         else:
             # eat possibly escaped characters, handling \[dswhH] on the fly
             i = 0
             while i < len(pattern):
-                if pattern[i] == '\\' and pattern[i+1] in RECHARS:
+                if pattern[i] == '\\' and pattern[i + 1] in RECHARS:
                     end = Pattern.skipRepeat(pattern, i + 2)
-                    if i == 0: # \?{10}
-                        return [ [ '[' + RECHARS[pattern[1]] + ']' ,
-                                   pattern[2:end] ] ] + \
-                                 Pattern.catSplit(pattern[end:])
-                    else: # STUF\?{10}
-                        return [ [ pattern[0:i], '' ] , \
-                                 [ '[' + RECHARS[pattern[i+1]] + ']' ,
-                                   pattern[i+2:end] ] ] + \
-                            Pattern.catSplit(pattern[end:])
+                    if i == 0:  # \?{10}
+                        return [['[' + RECHARS[pattern[1]] + ']',
+                                 pattern[2:end]]] + \
+                               Pattern.catSplit(pattern[end:])
+                    else:  # STUF\?{10}
+                        return [[pattern[0:i], ''], \
+                                ['[' + RECHARS[pattern[i + 1]] + ']',
+                                 pattern[i + 2:end]]] + \
+                               Pattern.catSplit(pattern[end:])
                 elif pattern[i] == '\\':
                     i += 1
                     assert i < len(pattern), \
@@ -3753,19 +3885,20 @@ class Pattern:
                     if i == 1:
                         # F{3}
                         end = Pattern.skipRepeat(pattern, i)
-                        return [ [ pattern[0:i], pattern[i:end] ] ] + \
-                            Pattern.catSplit(pattern[end:])
+                        return [[pattern[0:i], pattern[i:end]]] + \
+                               Pattern.catSplit(pattern[end:])
                     else:
                         # STUFF{3} -> STUF & F{3}
                         end = Pattern.skipRepeat(pattern, i)
-                        return [ [ pattern[0:i-1], '' ] , \
-                                 [ pattern[i-1:i], pattern[i:end] ] ] + \
-                            Pattern.catSplit(pattern[end:])
+                        return [[pattern[0:i - 1], ''], \
+                                [pattern[i - 1:i], pattern[i:end]]] + \
+                               Pattern.catSplit(pattern[end:])
                 elif pattern[i] in '([':
-                    return [ [ pattern[0:i], '' ] ] + \
-                        Pattern.catSplit(pattern[i:])
+                    return [[pattern[0:i], '']] + \
+                           Pattern.catSplit(pattern[i:])
                 i += 1
-            return [ [ pattern, '' ] ]
+            return [[pattern, '']]
+
     @staticmethod
     def altSplit(pattern):
         """Split pattern for Alt
@@ -3774,38 +3907,40 @@ class Pattern:
         """
         assert pattern[0] == '(' and pattern[-1] == ')', \
             "{0} is not an alternation".format(pattern)
-        pattern = pattern[1:-1] # remove parentheses
+        pattern = pattern[1:-1]  # remove parentheses
         l, i, opened = [], 0, 0
         while i < len(pattern):
-            if pattern[i] == '\\': # skip escaped character
+            if pattern[i] == '\\':  # skip escaped character
                 i += 1
-            elif pattern[i] == '[': # skip embedded []
-                i = pattern.index(']', i + (3 if pattern[i+1] == '^' else 2))
+            elif pattern[i] == '[':  # skip embedded []
+                i = pattern.index(']', i + (3 if pattern[i + 1] == '^' else 2))
             elif pattern[i] == '(':
                 opened += 1
             elif pattern[i] == ')':
                 opened -= 1
             elif pattern[i] == '|' and opened == 0:
                 l.append(pattern[0:i])
-                pattern = pattern[i+1:]
+                pattern = pattern[i + 1:]
                 i = -1
             i += 1
         # remaining stuff
         l.append(pattern)
         return l
+
     @staticmethod
     def repeat(att, g, extent):
-        if extent == '' or extent == '{1}'or extent == '{1,1}':
+        if extent == '' or extent == '{1}' or extent == '{1,1}':
             return g
         extent = '0,1' if extent == '?' else \
-                 '0,8' if extent == '*' else \
-                 '1,8' if extent == '+' else \
-                 extent[1:-1]
+            '0,8' if extent == '*' else \
+                '1,8' if extent == '+' else \
+                    extent[1:-1]
         if ',' in extent:
             min, max = extent.split(',')
         else:
             min, max = extent, extent
         return RepeatGenerator(att, params={'extent': min + '-' + max}, gen=g)
+
     @staticmethod
     def genAlt(att, pattern, extent=''):
         """Parses a single pattern like (...) or [...] or ."""
@@ -3834,19 +3969,20 @@ class Pattern:
         elif pattern[0] == '[':
             # character class, CharGenerator...
             if pattern[1] == '^':
-                assert len(pattern)>3 and pattern[-1] == ']'
+                assert len(pattern) > 3 and pattern[-1] == ']'
                 notch = CharsGenerator.parseCharSequence(att, pattern[2:-1])
                 allch = CharsGenerator.parseCharSequence(att, RE_DOT)
                 difch = ''.join(sorted(list(set(allch) - set(notch))))
                 g = CharsGenerator(att, chars=difch)
             else:
-                assert len(pattern)>2 and pattern[-1] == ']'
-                g = CharsGenerator(att, params={'chars':pattern[1:-1]})
+                assert len(pattern) > 2 and pattern[-1] == ']'
+                g = CharsGenerator(att, params={'chars': pattern[1:-1]})
             g.size, g.lenmin, g.lenmax = 0xffffffff, 1, 1
             return Pattern.repeat(att, g, extent)
         else:
             # possibly repeated constant text
             return Pattern.repeat(att, ConstGenerator(att, cst=pattern), extent)
+
     @staticmethod
     def genCat(att, pattern, extent=''):
         """Parses a pattern sequence like (foo|bla){1,3}stuff[abc]{5}'"""
@@ -3865,58 +4001,72 @@ class Pattern:
                                         for p in pats])
         return Pattern.repeat(att, g, extent)
 
+
 class PatternGenerator(RandomGenerator):
     """Generate pattern-based text.
 
     - Generator root
     """
-    DIRS = { 'pattern':str }
+    DIRS = {'pattern': str}
+
     def __init__(self, att, params=None):
         RandomGenerator.__init__(self, att, params)
         assert 'pattern' in self.params, \
             "{0}: mandatory 'pattern' directive".format(self)
         self.pattern = '' if isinstance(self.params['pattern'], bool) else \
-                       self.params['pattern']
+            self.params['pattern']
         self.root = Pattern.genAlt(att, '(' + self.pattern + ')')
         # synchronize full generator tree
         self.root.mapGen(lambda s: s.notNull())
         if self.shared:
             self.root.mapGen(lambda s: s.setShare(self.shared))
         self.cleanParams(PatternGenerator.DIRS)
+
     def mapGen(self, func):
         super(PatternGenerator, self).mapGen(func)
         self.root.mapGen(func)
+
     def genData(self):
         return self.root.genData()
 
+
 class WithPersistent(Generator):
     """Persistent value per tuple."""
+
     def __init__(self):
         self.last_tuple_count = 0
         self.last_value = None
+
     def super(self):
         return super(WithPersistent, self)
+
     def genData(self):
         if self.last_tuple_count != tuple_count:
             self.last_tuple_count = tuple_count
             self.last_value = self.super().genData()
         return self.last_value
 
+
 class PersistentGenerator(WithPersistent):
     """Encapsulate a generator to make it persistent."""
+
     def __init__(self, gen):
         WithPersistent.__init__(self)
         self.gen = gen
-    def super(self): # hmmm...
+
+    def super(self):  # hmmm...
         return self.gen
+
     def mapGen(self, func):
         super(PersistentGenerator, self).mapGen(func)
         self.gen.mapGen(func)
 
+
 class ValueGenerator(Generator):
     """Generate a constant value per tuple"""
     values = {}
-    DIRS = { 'value':str }
+    DIRS = {'value': str}
+
     def __init__(self, att, params):
         Generator.__init__(self, att, params)
         assert 'value' in self.params, \
@@ -3927,18 +4077,23 @@ class ValueGenerator(Generator):
                 PersistentGenerator(macroGenerator(value))
         self.value = ValueGenerator.values[value]
         self.cleanParams(ValueGenerator.DIRS)
+
     def mapGen(self, func):
         super(ValueGenerator, self).mapGen(func)
         self.value.mapGen(func)
+
     def genData(self):
         return self.value.genData()
+
     def getData(self):
         return self.genData()
+
 
 class SharedGenerator(WithPersistent, IntGenerator):
     """Generate persistent integers."""
     _generators = {}
     DIRS = {}
+
     @staticmethod
     def getGenerator(obj, name):
         if not name in SharedGenerator._generators:
@@ -3947,6 +4102,7 @@ class SharedGenerator(WithPersistent, IntGenerator):
             SharedGenerator._generators[name] = \
                 SharedGenerator(name, df_macro[name])
         return SharedGenerator._generators[name]
+
     def __init__(self, name, params):
         assert name != None and params != None, "mandatory parameters"
         size = params['size'] if 'size' in params else None
@@ -3966,15 +4122,19 @@ class SharedGenerator(WithPersistent, IntGenerator):
         WithPersistent.__init__(self)
         self.cleanParams(SharedGenerator.DIRS)
 
+
 class BitGenerator(WithLength, RandomGenerator):
     DIRS = {}
+
     def __init__(self, att=None, params=None):
         RandomGenerator.__init__(self, att, params)
         WithLength.__init__(self, 8, 32)
         self.cleanParams(BitGenerator.DIRS)
+
     def genData(self):
         len = self._rand.randint(self.lenmin, self.lenmax)
         return "{0:0{1}b}".format(self._rand.getrandbits(len), len)
+
 
 def UUIDGenerator(att, params=None):
     if not params:
@@ -3982,23 +4142,26 @@ def UUIDGenerator(att, params=None):
     params['pattern'] = r'\h{4}(\h{4}-){4}\h{12}'
     return PatternGenerator(att, params)
 
+
 # all user-visible generators
 GENERATORS = {
-    'cat':CatGenerator, 'alt':AltGenerator, 'timestamp':TimestampGenerator,
-    'repeat':RepeatGenerator, 'float':FloatGenerator, 'date':DateGenerator,
-    'pattern':PatternGenerator, 'int':IntGenerator, 'bool':BoolGenerator,
-    'interval':IntervalGenerator, 'const':ConstGenerator, 'word':WordGenerator,
-    'string':StringGenerator, 'chars':CharsGenerator, 'text':TextGenerator,
-    'blob':BlobGenerator, 'inet':InetGenerator, 'mac':MACGenerator,
-    'ean':EANGenerator, 'luhn':LuhnGenerator, 'count':CountGenerator,
-    'file':FileGenerator, 'uuid':UUIDGenerator, 'bit':BitGenerator,
-    'array':ArrayGenerator, 'tuple':TupleGenerator, 'isnull':NULLGenerator,
-    'reduce':ReduceGenerator, 'value':ValueGenerator
+    'cat': CatGenerator, 'alt': AltGenerator, 'timestamp': TimestampGenerator,
+    'repeat': RepeatGenerator, 'float': FloatGenerator, 'date': DateGenerator,
+    'pattern': PatternGenerator, 'int': IntGenerator, 'bool': BoolGenerator,
+    'interval': IntervalGenerator, 'const': ConstGenerator, 'word': WordGenerator,
+    'string': StringGenerator, 'chars': CharsGenerator, 'text': TextGenerator,
+    'blob': BlobGenerator, 'inet': InetGenerator, 'mac': MACGenerator,
+    'ean': EANGenerator, 'luhn': LuhnGenerator, 'count': CountGenerator,
+    'file': FileGenerator, 'uuid': UUIDGenerator, 'bit': BitGenerator,
+    'array': ArrayGenerator, 'tuple': TupleGenerator, 'isnull': NULLGenerator,
+    'reduce': ReduceGenerator, 'value': ValueGenerator
 }
+
 
 def strDict(d):
     return '{' + \
-        ', '.join("{0!r}: {1!r}".format(k, d[k]) for k in sorted(d)) + '}'
+           ', '.join("{0!r}: {1!r}".format(k, d[k]) for k in sorted(d)) + '}'
+
 
 def createGenerator(a, t, params=None, msg=None):
     """Create a generator from specified type.
@@ -4023,13 +4186,15 @@ def createGenerator(a, t, params=None, msg=None):
         "unexpected '{0}' directives: {1}".format(t, strDict(gen.params))
     return gen
 
+
 def macroGenerator(name, att=None):
     assert name in df_macro, \
         "{0}: '{1}' must be a macro".format(att if att else 'Macro', name)
     gen = createGenerator(att, None, params=df_macro[name], msg=name)
-    if isinstance(gen, IntGenerator) and gen.size == None: # ???
-        gen.setSize(opts.size if opts.size else 1000) # ???
+    if isinstance(gen, IntGenerator) and gen.size == None:  # ???
+        gen.setSize(opts.size if opts.size else 1000)  # ???
     return gen
+
 
 #
 # UTILS
@@ -4045,7 +4210,7 @@ def getParams(dfline):
     while dfline[0] == ' ':
         dfline = dfline[1:]
     # do parse
-    while len(dfline)>0:
+    while len(dfline) > 0:
         # python does not like combining assign & test, so use continue
         d = df_txt.match(dfline)
         if d:
@@ -4081,13 +4246,15 @@ def getParams(dfline):
         raise Exception("cannot parse: '{0}'".format(dfline))
     return params
 
+
 #
 # Relation model
 #
 class Model(object):
     """Modelize something"""
     # global parameters and their types
-    PARAMS = { 'size':int, 'offset':int, 'null':float, 'seed':str, 'type':str }
+    PARAMS = {'size': int, 'offset': int, 'null': float, 'seed': str, 'type': str}
+
     @staticmethod
     def checkPARAMS(obj, params, PARAMS):
         """Check parameters against their description."""
@@ -4096,15 +4263,15 @@ class Model(object):
             if PARAMS[k] == float:
                 assert type(v) is float or type(v) is int, \
                     "type {0} instead of float parameter '{1}'". \
-                    format(v.__class__.__name__, k)
+                        format(v.__class__.__name__, k)
             elif PARAMS[k] == int:
                 assert type(v) is int, \
                     "type {0} instead of int for parameter '{1}'". \
-                    format(v.__class__.__name__, k)
+                        format(v.__class__.__name__, k)
             elif PARAMS[k] == bool:
                 assert type(v) is bool, \
                     "type {0} instead bool for parameter '{1}'". \
-                    format(v.__class__.__name__, k)
+                        format(v.__class__.__name__, k)
             # fix value type in some cases
             if type(v) == bool and PARAMS[k] == str:
                 params[k] = ''
@@ -4115,25 +4282,31 @@ class Model(object):
         assert not ('mult' in params and 'size' in params), \
             "{0}: must not have both 'mult' and 'size'".format(obj)
         # else everything is fine
+
     def __init__(self, name):
         # unquote attributes names (PostgreSQL or MySQL)
         self.quoted = name[0] == '"' or name[0] == '`'
         self.name = name[1:-1] if self.quoted else name.lower()
         self.size = None
         self.params = {}
+
     def __str__(self):
         return self.getName()
+
     def checkParams(self):
         Model.checkPARAMS(self, self.params, self.__class__.PARAMS)
         # handle type additions on the fly
         if 'type' in self.params:
             addType(self.params['type'])
             del self.params['type']
+
     def setParams(self, dfline):
         self.params.update(getParams(dfline))
         self.checkParams()
+
     def getName(self):
         return db.quoteIdent(self.name) if self.quoted else self.name
+
 
 def findGenerator(obj, params):
     """Get generator from parameters."""
@@ -4145,29 +4318,31 @@ def findGenerator(obj, params):
             found = k
     return found
 
+
 def findGeneratorType(type):
     """Get generator based on SQL type"""
     return \
-        'array'     if db.arrayType(type)     else \
-        'int'       if db.intType(type)       else \
-        'string'    if db.textType(type)      else \
-        'bool'      if db.boolType(type)      else \
-        'date'      if db.dateType(type)      else \
-        'timestamp' if db.timestampType(type) else \
-        'interval'  if db.intervalType(type)  else \
-        'float'     if db.floatType(type)     else \
-        'blob'      if db.blobType(type)      else \
-        'inet'      if db.inetType(type)      else \
-        'mac'       if db.macAddrType(type)   else \
-        'ean'       if db.eanType(type)       else \
-        'uuid'      if db.uuidType(type)      else \
-        'bit'       if db.bitType(type)       else \
-        None
+        'array' if db.arrayType(type) else \
+            'int' if db.intType(type) else \
+                'string' if db.textType(type) else \
+                    'bool' if db.boolType(type) else \
+                        'date' if db.dateType(type) else \
+                            'timestamp' if db.timestampType(type) else \
+                                'interval' if db.intervalType(type) else \
+                                    'float' if db.floatType(type) else \
+                                        'blob' if db.blobType(type) else \
+                                            'inet' if db.inetType(type) else \
+                                                'mac' if db.macAddrType(type) else \
+                                                    'ean' if db.eanType(type) else \
+                                                        'uuid' if db.uuidType(type) else \
+                                                            'bit' if db.bitType(type) else \
+                                                                None
+
 
 class Attribute(Model):
     """Represent an attribute in a table."""
     # all attribute PARAMETERS and their types
-    PARAMS = { 'nogen':bool, 'mult':float }
+    PARAMS = {'nogen': bool, 'mult': float}
     # directives from hidden generators & options
     PARAMS.update(Generator.DIRS)
     PARAMS.update(RandomGenerator.DIRS)
@@ -4182,6 +4357,7 @@ class Attribute(Model):
     for k in GENERATORS:
         if not k in PARAMS:
             PARAMS[k] = bool
+
     # methods
     def __init__(self, name, number, type):
         Model.__init__(self, name)
@@ -4192,46 +4368,58 @@ class Attribute(Model):
         self.unique = False
         self.not_null = False
         self.gen = None
+
     def __repr__(self):
         return "{0}: {1} type={2} PK={3} U={4} NN={5} FK=[{6}]". \
-               format(self, self.number, self.type,
-                      self.isPK, self.unique, self.not_null, self.FK)
+            format(self, self.number, self.type,
+                   self.isPK, self.unique, self.not_null, self.FK)
+
     def __str__(self):
         return "Attribute {0}.{1}". \
             format(self.table.getName(), self.getName())
+
     def getGenerator(self):
         return findGenerator(self, self.params)
+
     def getData(self):
         assert self.gen, "{0}: generator not set".format(self)
         return self.gen.getData()
+
     def checkParams(self):
         Model.checkParams(self)
         assert not ('mult' in self.params and 'size' in self.params), \
             "{0}: not both 'mult' and 'size'".format(self)
         # other consistency checks would be possible
+
     def isUnique(self):
         return self.isPK or self.unique
+
     def isNullable(self):
         return not self.not_null and not self.isPK
+
     def isSerial(self):
         return db.serialType(self.type)
+
 
 class Table(Model):
     """Represent a relational table."""
     # table-level parameters
-    PARAMS = { 'mult':float, 'size':int, 'nogen':bool,
-               'skip':float, 'null':float }
+    PARAMS = {'mult': float, 'size': int, 'nogen': bool,
+              'skip': float, 'null': float}
+
     def __init__(self, name):
         Model.__init__(self, name)
         # attributes
         self.atts = {}
-        self.att_list = [] # list of attributes in occurrence order
+        self.att_list = []  # list of attributes in occurrence order
         self.unique = []
-        self.ustuff = {} # uniques are registered in this dictionnary
+        self.ustuff = {}  # uniques are registered in this dictionnary
         self.constraints = []
+
     def __str__(self):
         return "Table {0} [{1:d}] ({2})". \
             format(self.getName(), self.size, strDict(self.params))
+
     def __repr__(self):
         s = str(self) + "\n"
         for att in self.att_list:
@@ -4240,8 +4428,10 @@ class Table(Model):
             s += "  UNIQUE: " + str(u) + "\n"
         s += "  CONSTRAINTS: " + str(self.constraints) + "\n"
         return s
+
     def checkParams(self):
         Model.checkParams(self)
+
     def addAttribute(self, att):
         self.att_list.append(att)
         self.atts[att.name] = att
@@ -4255,6 +4445,7 @@ class Table(Model):
             self.constraints.append(self.name + '_' + att.name + '_key')
         elif att.FK:
             self.constraints.append(self.name + '_' + att.name + '_fkey')
+
     def addUnique(self, atts, type=None):
         if opts.debug: debug(3, "addUnique " + str(atts) + " type=" + type)
         assert len(atts) >= 1
@@ -4265,23 +4456,27 @@ class Table(Model):
             else:
                 att.isPK = True
                 att.not_null = True
-        else: # multiple attributes
+        else:  # multiple attributes
             self.unique.append([self.getAttribute(a).number for a in atts])
             self.constraints.append(self.name + '_' + \
                                     '_'.join(a.lower() for a in atts) +
-                                ('_key' if type.lower()=='unique' else '_pkey'))
+                                    ('_key' if type.lower() == 'unique' else '_pkey'))
+
     def getAttribute(self, name):
         assert name.lower() in self.atts, "{0} Attribute {1}".format(self, name)
         return self.atts[name.lower()]
+
     def getPK(self):
         for a in self.att_list:
             if a.isPK:
                 return a
         assert False, "{0}: no PK found".format(self)
+
     def mapGen(self, func):
         # apply func on all attribute's generators
         list(map(lambda g: g.mapGen(func), \
-            map(lambda a: a.gen, filter(lambda x: x.gen, self.att_list))))
+                 map(lambda a: a.gen, filter(lambda x: x.gen, self.att_list))))
+
     def getData(self):
         # generate initial stuff
         lg = list(filter(lambda x: x.gen, self.att_list))
@@ -4295,7 +4490,7 @@ class Table(Model):
         while tries:
             tries -= 1
             nu, collision = 0, False
-            sul= []
+            sul = []
             for u in self.unique:
                 # one case is not implemented:
                 # unique contains indexes in att_list, but we do not know
@@ -4305,10 +4500,10 @@ class Table(Model):
                 assert len(l) == len(self.att_list), \
                     "{0}: no unique subset".format(self)
                 nu += 1
-                su = str(nu) + ':' + str([l[i-1] for i in u])
+                su = str(nu) + ':' + str([l[i - 1] for i in u])
                 if su in self.ustuff:
                     collision = True
-                    break # non unique tuple
+                    break  # non unique tuple
                 else:
                     sul.append(su)
             if collision:
@@ -4322,15 +4517,16 @@ class Table(Model):
                 self.mapGen(lambda s: s.shareSeed())
                 for g in lg:
                     l.append(l0[i] if g.isUnique() or g.isSerial() \
-                             else g.getData())
+                                 else g.getData())
                     i += 1
-                continue # restart while with updated values
-            else: # record unique value
+                continue  # restart while with updated values
+            else:  # record unique value
                 for su in sul:
                     self.ustuff[su] = 1
                 return l
         assert False, \
             "{0}: cannot build tuple after {1} tries".format(self, opts.tries)
+
 
 #
 # Databases
@@ -4338,143 +4534,200 @@ class Table(Model):
 
 class Database(object):
     """Abstract a database target."""
+
     def comment(self, s):
         print('-- ' + s)
+
     def echo(self, s):
         raise Exception('not implemented in abstract class')
+
     # transactions
     def begin(self):
         raise Exception('not implemented in abstract class')
+
     def commit(self):
         raise Exception('not implemented in abstract class')
+
     # operations
     def insertBegin(self, table):
         raise Exception('not implemented in abstract class')
+
     def insertValue(self, table, value, isLast):
         raise Exception('not implemented in abstract class')
+
     def insertEnd(self):
         raise Exception('not implemented in abstract class')
+
     def setSequence(self, att, number):
         raise Exception('not implemented in abstract class')
+
     def dropTable(self, table):
         return "DROP TABLE {0};".format(self.quote_ident(table.name))
+
     def truncateTable(self, table):
         return "DELETE FROM {0};".format(self.quote_ident(table.name))
+
     # types
     def arrayType(self, type):
         t = type.upper()
         return '[' in t or ' ARRAY' in t
+
     def serialType(self, type):
         return False
+
     def intType(self, type):
         t = type.lower()
         return t == 'smallint' or t == 'int' or t == 'integer' or t == 'bigint'
+
     def textType(self, type):
         t = type.lower()
         return t == 'text' or re.match(r'(var)?char\(', t)
+
     def boolType(self, type):
         t = type.lower()
         return t == 'bool' or t == 'boolean'
+
     def dateType(self, type):
         return type.lower() == 'date'
+
     def intervalType(self, type):
         return type.lower() == 'interval'
+
     def timestampType(self, type):
         return re.match(RE_TSTZ + '$', type, re.I)
+
     def floatType(self, type):
         return re.match(RE_FLT + '$', type, re.I)
+
     def blobType(self, type):
         return re.match(RE_BLO + '$', type, re.I)
+
     def inetType(self, type):
         return re.match(RE_IPN + '$', type, re.I)
+
     def macAddrType(self, type):
         return re.match(RE_MAC + '$', type, re.I)
+
     def eanType(self, s):
         return 0
+
     def uuidType(self, s):
         return s.upper() == 'UUID'
+
     def bitType(self, type):
         return re.match(RE_BIT + '$', type, re.I)
+
     # quoting
     def quoteIdent(self, ident):
         raise Exception('not implemented in abstract class')
+
     def quoteLiteral(self, literal):
         return '\'' + literal + '\''
+
     # values
     def null(self):
         raise Exception('not implemented in abstract class')
+
     def boolValue(self, b):
         return 'TRUE' if b else 'FALSE'
+
     def dateValue(self, d):
         return d.strftime('%Y-%m-%d')
+
     def timestampValue(self, t, tz=None):
         ts = t.strftime('%Y-%m-%d %H:%M:%S')
         if tz:
             ts += ' ' + tz
         return ts
+
     def intervalValue(self, val, unit):
         return str(val) + ' ' + unit
+
     def blobValue(self, lo):
         raise Exception('not implemented in abstract class')
+
     def showValue(self, s):
         return s
+
     analyse = None
+
 
 class CSV(Database):
     """CSV output."""
+
     def comment(self, s):
         pass
+
     def _comment(self, s):
         return "# " + s
+
     def echo(self, s):
         return self._comment(s)
+
     # transactions
     def begin(self):
         return None
+
     def commit(self):
         return None
+
     # operations
     def insertBegin(self, table):
         return self._comment("%s: %s" % \
-            (table.getName(), ','.join(a.getName() \
-                for a in filter(lambda x: x.gen, table.att_list))))
+                             (table.getName(), ','.join(a.getName() \
+                                                        for a in filter(lambda x: x.gen, table.att_list))))
+
     def insertValue(self, table, value, isLast):
         return ','.join(db.quoteLiteral(i) for i in value)
+
     def insertEnd(self):
         return ''
+
     def setSequence(self, tab, att, number):
         return ''
+
     def dropTable(self, table):
         return ''
+
     def truncateTable(self, table):
         return ''
+
     # quoting
     def quoteIdent(self, ident):
         return '"%s"' % ident
+
     def quoteLiteral(self, literal):
         if isinstance(literal, (int, float)):
             return str(literal)
         else:
             return '"%s"' % literal
+
     # type
     def serialType(self, type):
         return is_ser.match(type)
+
     def intType(self, type):
         t = type.lower()
         return Database.intType(self, t) or \
-            self.serialType(type) or is_int.match(t)
+               self.serialType(type) or is_int.match(t)
+
     # values
     def null(self):
         return 'NULL'
 
+
 class PostgreSQL(Database):
     """PostgreSQL database."""
+
     def echo(self, s):
         return '\\echo ' + s
+
     def begin(self):
         return 'BEGIN;'
+
     def commit(self):
         return 'COMMIT;'
+
     def insertBegin(self, table):
         # build COPY options
         copyopts = []
@@ -4489,10 +4742,11 @@ class PostgreSQL(Database):
             ','.join(a.getName() \
                      for a in filter(lambda x: x.gen, table.att_list)),
             scopyopts)
+
     def quoteEsc(self, s, q, esc, n):
         if s == None:
             return n
-        elif isinstance(s, list): # ',' is for all types but Box...
+        elif isinstance(s, list):  # ',' is for all types but Box...
             return '{' + ','.join(self.dQuoteEsc(i) for i in s) + '}'
         elif isinstance(s, bool):
             return self.boolValue(s)
@@ -4504,68 +4758,92 @@ class PostgreSQL(Database):
             return '(' + ','.join(self.dQuoteEsc(e, '') for e in s) + ')'
         else:
             return q + ''.join(esc[c] if c in esc else c for c in str(s)) + q
+
     # double quotes
-    DQESC = { '"':r'\"', '\\':r'\\'}
+    DQESC = {'"': r'\"', '\\': r'\\'}
+
     def dQuoteEsc(self, s, null='NULL'):
         return self.quoteEsc(s, '"', PostgreSQL.DQESC, null)
+
     # simple quotes
-    SQESC = { "'":r"''"}
+    SQESC = {"'": r"''"}
+
     def sQuoteEsc(self, s, null='NULL'):
         return self.quoteEsc(s, "'", PostgreSQL.SQESC, null)
+
     # how to escape some characters for PostgreSQL's COPY:
-    CPESC = {'\n':r'\n', '\t':r'\t', '\b':r'\b', '\r':r'\r', '\f':r'\f',
-            '\v':r'\v', '\a':r'\007', '\0':r'\000', '\\':r'\\'}
+    CPESC = {'\n': r'\n', '\t': r'\t', '\b': r'\b', '\r': r'\r', '\f': r'\f',
+             '\v': r'\v', '\a': r'\007', '\0': r'\000', '\\': r'\\'}
+
     def copyEsc(self, s):
         return self.quoteEsc(s, '', PostgreSQL.CPESC, self.null())
+
     # overwrite value display function
     showValue = copyEsc
+
     def insertValue(self, table, value, isLast):
         # generate tab-separated possibly escaped values
         return '\t'.join(self.copyEsc(i) for i in value)
+
     def insertEnd(self):
         return '\\.'
+
     def setSequence(self, tab, att, number):
         name = "{0}_{1}_seq".format(tab.name, att.name)
         if tab.quoted or att.quoted:
             name = db.quoteIdent(name)
         return "ALTER SEQUENCE {0} RESTART WITH {1};".format(name, number)
+
     def dropTable(self, table):
         return "DROP TABLE IF EXISTS {0} CASCADE;".format(table.getName())
+
     def truncateTable(self, table):
         return "TRUNCATE TABLE {0} CASCADE;".format(table.getName())
+
     def quoteIdent(self, ident):
         # no escaping?
         return '"{0}"'.format(ident)
+
     def null(self):
         return r'\N'
+
     def serialType(self, type):
         return is_ser.match(type)
+
     def intType(self, type):
         t = type.lower()
         return Database.intType(self, t) or \
-            self.serialType(type) or is_int.match(t)
+               self.serialType(type) or is_int.match(t)
+
     def eanType(self, type):
         # return the expected byte size
         t = type.upper()
         return 0 if not re.match('(' + RE_EAN + ')', t) else \
             12 if t == 'UPC' else \
-            13 if t[-2:] == '13' else \
-            8 if t == 'ISSN' else \
-            10
+                13 if t[-2:] == '13' else \
+                    8 if t == 'ISSN' else \
+                        10
+
     def blobValue(self, lo):
         return r'\\x' + ''.join("{0:02x}".format(o) for o in lo)
+
     def analyse(self, name):
         return "ANALYZE {0};".format(name)
 
+
 class MySQL(Database):
     """MySQL database (experimental)."""
+
     def begin(self):
         return 'START TRANSACTION;'
+
     def commit(self):
         return 'COMMIT;'
+
     def insertBegin(self, table):
         return "INSERT INTO {0} ({1}) VALUES".format(table.getName(),
-                        ','.join(a.getName() for a in table.att_list))
+                                                     ','.join(a.getName() for a in table.att_list))
+
     def insertValue(self, table, value, isLast):
         qv = []
         for v in value:
@@ -4575,13 +4853,17 @@ class MySQL(Database):
         if not isLast:
             s += ','
         return s
+
     def insertEnd(self):
         return ';'
+
     def null(self):
         return 'NULL'
+
     def intType(self, type):
         t = type.lower()
         return Database.intType(self, t) or t == 'tinyint' or t == 'mediumint'
+
 
 # class SQLite(Database):
 
@@ -4590,13 +4872,15 @@ def debug(level, message):
     if opts.debug >= level:
         sys.stderr.write("*" * level + " " + message + "\n")
 
+
 # option management
 # --size=1000
 # --target=postgresql|mysql
 # --help is automatic
 import sys
 import argparse
-#version="version {0}".format(version),
+
+# version="version {0}".format(version),
 opts = argparse.ArgumentParser(
     description='Fill database tables with random data.')
 opts.add_argument('-s', '--size', type=int, default=None,
@@ -4686,6 +4970,7 @@ if opts.self_test_hack:
     assert not opts.encoding, "no --encoding under self-test"
     opts.encoding = 'utf-8'
     import os
+
     os.linesep = '\n'
 
 # file generator test
@@ -4694,23 +4979,26 @@ if opts.validate == 'internal':
 
 if not opts.encoding:
     # note: this is ignored by python3 on input(?)
-    opts.encoding =  sys.getfilesystemencoding() if opts.file else \
-                     sys.stdin.encoding
+    opts.encoding = sys.getfilesystemencoding() if opts.file else \
+        sys.stdin.encoding
 
 if opts.encoding:
     # sys.stdout.encoding = opts.encoding
     import os
+
     if sys.version_info[0] == 3:
         def __encoded_print(s, end=os.linesep):
             # tell me there is something better than this...
             sys.stdout.buffer.write(s.encode(opts.encoding))
             sys.stdout.buffer.write(end.encode(opts.encoding))
-            sys.stdout.flush() # for python 3.4?
+            sys.stdout.flush()  # for python 3.4?
+
+
         print = __encoded_print
-    else: # python 2
+    else:  # python 2
         # simpler, although not sure why it works
         print = lambda s, end=os.linesep: \
-                sys.stdout.write(s.encode(opts.encoding) + end)
+            sys.stdout.write(s.encode(opts.encoding) + end)
 
 # macros: { 'name':{...} }
 df_macro = {}
@@ -4749,7 +5037,7 @@ if opts.test:
         if isinstance(gen, IntGenerator) and gen.size == None:
             gen.setSize(opts.size if opts.size else 10)
         assert not gen.params, "unused parameter: {0}".format(gen.params)
-        if h == '!': # show histogram
+        if h == '!':  # show histogram
             n = opts.size if opts.size else 10000
             vals = {}
             for i in range(n):
@@ -4759,14 +5047,14 @@ if opts.test:
                 vals[v] = 0 if not v in vals else vals[v] + 1
             print("histogram on {0} draws".format(n))
             for v in sorted(vals):
-                print(u8("{0}: {1:6.3f} %").format(v, 100.0*vals[v]/n))
-        else: # show values
+                print(u8("{0}: {1:6.3f} %").format(v, 100.0 * vals[v] / n))
+        else:  # show values
             for i in range(opts.size if opts.size else 10):
                 tuple_count += 1
                 gen.mapGen(lambda s: s.shareSeed())
                 d = db.showValue(gen.getData())
-                if h == '-': # short
-                    print(str(d), end=' ') # '\t' ?
+                if h == '-':  # short
+                    print(str(d), end=' ')  # '\t' ?
                 else:
                     print(u8("{0}: {1}").format(i, d))
             if h == '-':
@@ -4779,7 +5067,7 @@ if opts.test:
 if opts.drop or opts.test:
     opts.filter = True
 
-if opts.no_filter: # may be forced back for some tests
+if opts.no_filter:  # may be forced back for some tests
     opts.filter = False
 
 assert not (opts.filter and opts.truncate), \
@@ -4788,38 +5076,41 @@ assert not (opts.filter and opts.truncate), \
 if opts.man:
     # Let us use Perl's POD from Python:-)
     import os, tempfile
-    pod = tempfile.NamedTemporaryFile(prefix='datafiller_',mode='w')
+
+    pod = tempfile.NamedTemporaryFile(prefix='datafiller_', mode='w')
     name = sys.argv[0].split('/')[-1]
     pod.write(POD.format(comics=COMICS, pgbench=PGBENCH, library=LIBRARY_NODIR,
                          name=name, DOT=RE_DOT, NGENS=len(GENERATORS),
-            GLIST=' '.join("B<{0}>".format(g) for g in sorted(GENERATORS)),
-              version=version, year=revyear))
+                         GLIST=' '.join("B<{0}>".format(g) for g in sorted(GENERATORS)),
+                         version=version, year=revyear))
     pod.flush()
     os.system(opts.pod + ' ' + pod.name)
     pod.close()
     sys.exit(0)
 
+
 # auto run a test with some options
 def self_run(validate=None, seed=None, pipe=False, op=[]):
     import subprocess
     # command to run
-    cmd = [ sys.argv[0] ] + op
+    cmd = [sys.argv[0]] + op
     if isinstance(validate, list):
         cmd += map(lambda t: '--test=' + t, validate)
-    else: # must be str
-        cmd += [ '--validate='+validate ]
+    else:  # must be str
+        cmd += ['--validate=' + validate]
     if opts.self_test_python:
-        cmd += [ '--self-test-python=' + opts.self_test_python ]
+        cmd += ['--self-test-python=' + opts.self_test_python]
     if seed:
-        cmd.append('--seed='+seed)
+        cmd.append('--seed=' + seed)
     if opts.self_test_python:
         cmd.insert(0, opts.self_test_python)
     if opts.debug: debug(1, "self-test cmd: {0}".format(cmd))
     return subprocess.Popen(cmd, stdout=subprocess.PIPE if pipe else None)
 
+
 # the self-test allows to test the script on hosts without PostgreSQL
 def self_test(validate=None, seed='Calvin', D=None):
-    import subprocess, hashlib, time
+    import hashlib, time
     start = time.time()
     h = hashlib.sha256()
     p = self_run(validate, seed=seed, pipe=True, op=['--self-test-hack'])
@@ -4829,9 +5120,10 @@ def self_test(validate=None, seed='Calvin', D=None):
     d = h.hexdigest()[0:16]
     end = time.time()
     print("self-test {0} seed={1} hash={2} seconds={3:.2f}: {4}".
-          format(validate, seed, d, end-start,
+          format(validate, seed, d, end - start,
                  'PASS' if okay and d == D else 'FAIL'))
     return okay and d == D
+
 
 if opts.self_test:
     # self test results for python 2 & 3
@@ -4845,7 +5137,7 @@ if opts.self_test:
     fail = 0
     for test, seed, hash in TESTS:
         if not opts.validate or opts.validate == test:
-            fail += not self_test(test, seed, hash[sys.version_info[0]-2])
+            fail += not self_test(test, seed, hash[sys.version_info[0] - 2])
     sys.exit(fail)
 
 # reset arguments for fileinput
@@ -4873,6 +5165,8 @@ re_enums = ''
 # custom types management
 re_types = ''
 column_type = None
+
+
 def addType(t):
     global re_types, column_type
     if re_types:
@@ -4881,6 +5175,7 @@ def addType(t):
         re_types = t
     column_type = re.compile(r'^\s*,?\s*(ADD\s+COLUMN\s+)?({0})\s+({1}{2})'. \
                              format(RE_IDENT, re_types, RE_ARRAY), re.I)
+
 
 for t in opts.type:
     addType(t)
@@ -4908,7 +5203,8 @@ if opts.validate:
         raise Exception("unexpected validation {0}".format(opts.validate))
     lines = [u8(l) for l in lines]
 else:
-    import fileinput # despite the name this is really a filter...
+    import fileinput  # despite the name this is really a filter...
+
     fi = fileinput.input(openhook=fileinput.hook_encoded(opts.encoding))
     lines = [l for l in fi]
 
@@ -4917,6 +5213,8 @@ else:
 #
 
 re_quoted = re.compile(r"[^']*'(([^']|'')*)'(.*)")
+
+
 def sql_string_list(line):
     """Return an unquoted list of sql strings."""
     sl = []
@@ -4927,8 +5225,9 @@ def sql_string_list(line):
         quoted = re_quoted.match(line)
     return sl
 
+
 for line in lines:
-    #if opts.debug: sys.stderr.write(u8("line={0}").format(line))
+    # if opts.debug: sys.stderr.write(u8("line={0}").format(line))
     # skip \commands
     if backslash.match(line):
         continue
@@ -4945,7 +5244,7 @@ for line in lines:
     d = df_att.match(line)
     if d:
         if opts.debug: debug(2, "set attribute")
-        assert current_table!=None
+        assert current_table != None
         current_attribute = current_table.getAttribute(d.group(2))
     # extract directive
     d = df_dir.match(line)
@@ -4982,7 +5281,7 @@ for line in lines:
     #
     is_ce = create_enum.match(line)
     if is_ce:
-        current_enum = is_ce.group(1) # lower()?
+        current_enum = is_ce.group(1)  # lower()?
         if opts.debug:
             debug(2, "create enum " + current_enum)
         if re_enums:
@@ -5020,7 +5319,7 @@ for line in lines:
         current_table = Table(name)
         tables.append(current_table)
         all_tables[name.lower()] = current_table
-    elif current_table!=None:
+    elif current_table != None:
         #
         # COLUMN
         #
@@ -5084,10 +5383,10 @@ for line in lines:
                 current_attribute.not_null = True
     # attribute df stuff to current object: schema, table or attribute
     # this come last if the dfstuff is on the same line as its object
-    if dfstuff!=None:
-        if current_attribute!=None:
+    if dfstuff != None:
+        if current_attribute != None:
             current_attribute.setParams(dfstuff)
-        elif current_table!=None:
+        elif current_table != None:
             current_table.setParams(dfstuff)
         else:
             schema.setParams(dfstuff)
@@ -5176,8 +5475,8 @@ for t in tables:
     assert t.skip >= 0.0 and t.skip <= 1.0
     if t.size == None:
         t.size = t.params.pop('size') if 'size' in t.params else \
-                 int(t.params.pop('mult')*opts.size) if 'mult' in t.params else\
-                 opts.size
+            int(t.params.pop('mult') * opts.size) if 'mult' in t.params else \
+                opts.size
 
 # *then* set att sizes and possible offset
 for t in tables:
@@ -5190,7 +5489,7 @@ for t in tables:
             key = a.FK.atts[a.FKatt] if a.FKatt else a.FK.getPK()
             assert key.isUnique(), \
                 "foreign key {0}.{1} target {2} must be unique". \
-                format(a.table.name, a.name, key.name)
+                    format(a.table.name, a.name, key.name)
             # override default prefix
             # ??? only for text types!?
             if db.textType(a.type):
@@ -5239,10 +5538,10 @@ for t in filter(lambda t: not 'nogen' in t.params, tables):
         # checks!
         assert a.gen, \
             "generator for {0}.{1} type {2}". \
-                         format(t.name, a.name, a.type)
+                format(t.name, a.name, a.type)
         assert not a.gen.params, \
             "unused {0}.{1} directives: {2}". \
-                         format(t.name, a.name, a.gen.params)
+                format(t.name, a.name, a.gen.params)
 
 # print tables
 if opts.debug:
@@ -5259,8 +5558,8 @@ for t in tables:
             "unused {0} parameters: {1}".format(t.name, t.params)
         db.comment("skip table {0}".format(t.name))
     else:
-        size = "{0:d}*{1:g}".format(t.size, 1.0-t.skip) if t.skip else \
-               str(t.size)
+        size = "{0:d}*{1:g}".format(t.size, 1.0 - t.skip) if t.skip else \
+            str(t.size)
         db.comment("fill table {0} ({1})".format(t.name, size))
         if not opts.quiet:
             print(db.echo("# filling table {0} ({1})".format(t.name, size)))
@@ -5268,8 +5567,8 @@ for t in tables:
         for i in range(t.size):
             tup = t.getData()
             # although the tuple is generated, it may yet not be inserted
-            if not t.skip or not random.random() < t.skip or i==t.size-1:
-                print(db.insertValue(t, tup, i==t.size-1))
+            if not t.skip or not random.random() < t.skip or i == t.size - 1:
+                print(db.insertValue(t, tup, i == t.size - 1))
         print(db.insertEnd())
 
 #
