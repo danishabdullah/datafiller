@@ -1,4 +1,5 @@
 from __future__ import print_function, unicode_literals
+
 from setuptools import setup, find_packages
 
 __author__ = "danishabdullah"
@@ -8,7 +9,6 @@ with open("requirements.txt", 'r') as file:
 
 with open("README.md", 'r') as file:
     readme = file.read()
-
 
 with open("COPYING", 'r') as file:
     license = file.read()

@@ -5,7 +5,7 @@ import sys
 from datafiller.scripts.cli import opts
 
 __author__ = "danishabdullah"
-__all__ = ('StdoutExitError', )
+__all__ = ('StdoutExitError',)
 
 
 class StdoutExitError(BaseException):
