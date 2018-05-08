@@ -26,10 +26,13 @@ setup(
     author_email='fabien@coelho.net',
     description='$Package_name',
     package_data={
-        '': ['requirements.txt', 'README.md', 'COPYING']
+        '': ['requirements.txt', 'README.md', 'COPYING'],
+        'datafiller/examples': ['datafiller/examples/comics.sql', 'datafiller/examples/internal.schema.checks.sql',
+                                'datafiller/examples/internal.schema.sql', 'datafiller/examples/library.sql',
+                                'datafiller/examples/pgbench.sql', ]
     },
     entry_points={
-        'console_scripts': ['datafiller=datafiller']
+        'console_scripts': ['datafiller=datafiller.scripts.cli']
     },
     long_description=readme,
     classifiers=[

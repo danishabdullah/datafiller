@@ -152,3 +152,45 @@ See the [TUTORIAL](TUTORIAL.md) section Also, run with --validate=comics or
 --version, -v or -V
 
  -  Show script version.
+
+## TODO:
+
+- generate csv into separate files?
+- generate packed binary data?
+- could the generation be parallel somehow?
+- allow to cast/round generated values for float?
+- using .format was probably an error, '%' is more concise and readable
+- allow expressions from another attribute?
+- other types: geometry? json/xml? others? extensibility?
+  for geometry, just advertise the fact that text representation
+  can be generated, with some example about how to manage distributions.
+- non random generation? eg loop...
+- disable/enable constraints? within a transaction?
+  not possible with PostgreSQL, must DROP/CREATE? defer?
+- improve "parsing" regexpr...
+- also CREATE UNIQUE INDEX would be useful to parse?
+- real parser? PLY? see http://nedbatchelder.com/text/python-parsers.html
+- check for skip on referenced fk?
+  implement skip with a DELETE CASCADE?
+- option/directive to change: +* bounds?
+- int: add rot(ation)? bit permutation?
+- more examples in documentation?
+- non int FK? no??
+- --test="!inet size=10" # bof? feature? use share?
+- update online blog for new syntax & generators
+- add something --test=<...> in (advanced) tutorial
+- alt pattern: possibly add weigths "{...#3}"?
+- add special size=max?
+- when sub generators are used, size is +- ignored
+  size is not set consistently when subgens?
+- allow nested [:...:]? hmmm... can always use a macro.
+- the value/macro constraint is somehow awkward at times, requiring
+  cascading macros. not sure how it could be simplified.
+- embed latin1 test? depends on locally available locales?
+- how to generate a text array with a bunch of distinct text from a list,
+  with some probabilities? (eg tags).
+
+## NOT TO DO:
+- pg_dump -s ... | datafiller.py.py ... ## nope, how to set directives?!
+- remove 'sub', use int=XXX instead?
+  *NO*, sub is used for all generators which inherit from int.
